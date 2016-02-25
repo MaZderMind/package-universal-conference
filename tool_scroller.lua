@@ -1,11 +1,12 @@
 local json = require "json"
-local time = require "time"
+local time = require "tool_time"
 
-font = resource.load_font("silkscreen.ttf")
+font = resource.load_font("data_silkscreen.ttf")
 
 function Scroller()
     local infos = {}
-    util.file_watch("scroll.txt", function(content)
+    -- TODO read me from CONFIG
+    util.file_watch("data_scroll.txt", function(content)
         infos = {}
         for line in string.gmatch(content.."\n", "([^\n]*)\n") do
             if #line > 0 then

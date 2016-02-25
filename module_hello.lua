@@ -1,6 +1,6 @@
-gl.setup(1024, 768)
+gl.setup(1920, 1080)
 
-font = resource.load_font("silkscreen.ttf")
+font = resource.load_font("data_silkscreen.ttf")
 
 local M = {}
 

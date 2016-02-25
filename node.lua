@@ -7,38 +7,34 @@ HEIGHT = HEIGHT * scale
 node.set_flag "slow_gc"
 util.init_hosted()
 
-util.loaders.pkm = resource.load_image
-
-pp(CONFIG)
+--util.loaders.pkm = resource.load_image
 
 ------
 
-local ModuleLoader = require "loader"
-local Runner = require "runner"
-local Scheduler = require "scheduler"
+local ModuleLoader = require "tool_loader"
+local Runner       = require "tool_runner"
+local Scheduler    = require "tool_scheduler"
 
-local Fadeout = require "fadeout"
-local Scroller = require "scroller"
+local Fadeout      = require "tool_fadeout"
+local Scroller     = require "tool_scroller"
 
-local utils = require "utils"
+local utils        = require "tool_utils"
 
 ------
 
-local modules = ModuleLoader()
-local runner = Runner(modules)
+local modules   = ModuleLoader()
+local runner    = Runner(modules)
 local scheduler = Scheduler(runner, modules)
 
-local fadeout = Fadeout()
-local scroller = Scroller()
+local fadeout   = Fadeout()
+local scroller  = Scroller()
 
 ------
 
 function node.render()
     fadeout.tick()
-
     runner.tick()
     utils.reset_view()
     scheduler.tick()
-
     scroller.tick()
 end

@@ -1,13 +1,13 @@
-local utils = require "utils"
 local json = require "json"
-local time = require "time"
+local utils = require "tool_utils"
+local time = require "tool_time"
 
 function Scheduler(runner, modules)
     local playlist = {}
     local playlist_offset = 0
 
     -- TODO read me from CONFIG
-    util.file_watch("playlist.json", function(raw)
+    util.file_watch("data_playlist.json", function(raw)
         playlist = json.decode(raw)
         playlist_offset = 0
     end)
