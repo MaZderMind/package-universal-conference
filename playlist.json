@@ -1,0 +1,13 @@
+[{
+    "module": "hello",
+    "chance": 0.5,
+    "options": {
+      "text": "World"
+    }
+}, {
+    "module": "hello",
+    "chance": 1.0,
+    "options": {
+      "text": "Mars"
+    }
+}]

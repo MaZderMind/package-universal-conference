@@ -1,0 +1,19 @@
+{
+    "name": "Conference",
+    "options": [    
+    {
+        "title": "Clock",
+        "type": "section"
+    }, {
+        "title": "Time Zone",
+        "ui_width": 4,
+        "name": "timezone",
+        "type": "select",
+        "hint": "The timezone",
+        "options": [
+            ["UTC", "UTC"],
+            ["Europe/Berlin", "Europe/Berlin"]
+        ],
+        "default": "Europe/Berlin"
+    }]
+}
