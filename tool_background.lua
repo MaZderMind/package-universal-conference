@@ -19,10 +19,12 @@ local next_graphic
 local valid_until = 0
 
 local function draw_still()
-    util.draw_correct(graphic, 0, 0, WIDTH, HEIGHT, 1)
+    local surface = graphic.file:get_surface()
+    util.draw_correct(surface, 0, 0, WIDTH, HEIGHT, 1)
 end
 
 local function draw_animated(now)
+    local surface = graphic.file:get_surface()
     local t = now / 10
 
     local x = math.sin(t/1) * 7 + 7
@@ -32,7 +34,7 @@ local function draw_animated(now)
     local dy = math.sin(t/6) * 5 - 30
     local s = 1.3
 
-    local width, height = graphic:size()
+    local width, height = surface:size()
 
     local fov = math.atan2(HEIGHT, WIDTH*2) * 360 / math.pi
     gl.perspective(fov, WIDTH/2, HEIGHT/2, -WIDTH,
@@ -46,7 +48,7 @@ local function draw_animated(now)
     gl.rotate(z, 0, 0, 1)
     gl.translate(-width/2, -height/2)
     gl.translate(dx, dy)
-    util.draw_correct(graphic, 0, 0, WIDTH, HEIGHT, 1)
+    util.draw_correct(surface, 0, 0, WIDTH, HEIGHT, 1)
     gl.popMatrix()
 end
 
@@ -63,12 +65,16 @@ M.tick = function()
 
     if next_graphic == nil and now > valid_until then
         next_graphic = generator.next()
+        next_graphic.file.load()
         print("scheduling next background-graphic", next_graphic.file.asset_name)
     end
 
     if next_graphic and next_graphic.file:get_surface():state() == 'loaded' then
         print("background-graphic is loaded, swapping graphics", next_graphic.file.asset_name)
-        graphic = next_graphic.file:get_surface()
+        if graphic ~= nil then
+            graphic.file.unload()
+        end
+        graphic = next_graphic
         next_graphic = nil
         valid_until = now + background_rotation_interval
     end
