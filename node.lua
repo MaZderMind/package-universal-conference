@@ -32,9 +32,8 @@ local scroller  = Scroller()
 ------
 
 function node.render()
+    scheduler.tick()
     fadeout.tick()
     runner.tick()
-    utils.reset_view()
-    scheduler.tick()
     scroller.tick()
 end
