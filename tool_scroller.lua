@@ -7,6 +7,10 @@ local function feeder()
     return CONFIG.scroller
 end
 
+local function is_enabled()
+    return #CONFIG.scroller > 0
+end
+
 local text = util.running_text{
     font = font;
     size = 40;
@@ -38,7 +42,7 @@ local function tick()
     end
     local current_speed = 0.05
     visibility = visibility * (1-current_speed) + target * (current_speed)
-    if #CONFIG.scroller > 0 then
+    if is_enabled() then
         draw()
     end
 end
