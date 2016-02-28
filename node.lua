@@ -10,12 +10,14 @@ pp(CONFIG)
 
 ------
 
+local Background   = require "tool_background"
 local Runner       = require "tool_runner"
 local Scheduler    = require "tool_scheduler"
 local Scroller     = require "tool_scroller"
 
 function node.render()
     Scheduler.tick()
+    Background.tick()
     Runner.tick()
     Scroller.tick()
 end

@@ -52,6 +52,34 @@
             "rows":     6,
             "hint":     "Multiple lines will be visually separated",
             "default":  "@infobeamer\nhttps://info-beamer.com/pi/"
+        }, {
+            "title":    "Design – Background",
+            "type":     "section"
+        }, {
+            "title":    "Background-Color",
+            "name":     "background_color",
+            "type":     "color",
+            "hint":     "Default Background-Color",
+            "default":  [0,0,0,1]
+        }, {
+            "title":    "Background-Graphics",
+            "name":     "background_graphics",
+            "type":     "list",
+            "hint":     "Select a Set of Background-Graphics",
+            "itemname": "Background-Graphic",
+            "items": [
+                {
+                    "title":    "Background-Graphic",
+                    "name":     "file",
+                    "type":     "resource",
+                    "valid":    ["image", "video", "child"]
+                }
+            ]
+        }, {
+            "title":    "Background-Image Rotation",
+            "name":     "background_rotation_interval",
+            "type":     "integer",
+            "hint":     "Number of Seconds a Background-Image is visible"
         }
     ]
 }

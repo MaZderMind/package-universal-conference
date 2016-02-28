@@ -22,41 +22,34 @@
 
   "scroller": "@infobeamer\nhttps://info-beamer.com/pi/\nHave a safe trip home. See you next year at 33C3.",
 
-  "texts": [
+  "nyi_texts": [
     {"text": "Social-Event will start at 21:00"},
     {"text": "Don't leave your Luggage unattended"}
   ],
 
-  "images": [
+  "nyi_images": [
     {"image": "lala.jpg"}
   ],
 
-  "clock": {
-    "enabled": true,
-    "placement": "bottom-right",
-    "background": "clock-bg.png"
-  },
+  "nyi_clock_enabled": true,
+  "nyi_placement": "bottom-right",
+  "nyi_background": "clock-bg.png",
 
-  "design": {
-    "background": {
-      "images": [
-        "assets/foss4g-bg-1.jpg",
-        "assets/foss4g-bg-2.jpg",
-        "assets/foss4g-bg-3.jpg"
-      ],
-      "blur": 4,
-      "duration": 5,
-      "moving": true
-    },
-
-    "fonts": {
-      "scroller": "data_silkscreen.ttf",
-      "headlines": "lala.ttf",
-      "body": "lala.ttf"
-    },
-
-    "colors": {
-      "scroller": "#FFFFFF"
+  "background_color": {"r": 0.8, "g": 0.8, "b": 0.8, "a": 1},
+  "background_graphics": [
+    {
+      "file": {"type": "image", "filename": "data_bg_ship.jpg", "asset_name": "data_bg_ship.jpg"}
+    }, {
+      "file": {"type": "image", "filename": "data_bg_sunset.jpg", "asset_name": "data_bg_sunset.jpg"}
+    }, {
+      "file": {"type": "image", "filename": "data_bg_city.jpg", "asset_name": "data_bg_city.jpg"}
     }
-  }
+  ],
+  "background_rotation_interval": 5,
+
+  "nyi_font_scroller": "data_silkscreen.ttf",
+  "nyi_font_headlines": "lala.ttf",
+  "nyi_font_body": "lala.ttf",
+
+  "nyi_color_scroller": {"r": 1, "g": 1, "b": 1, "a": 1}
 }
