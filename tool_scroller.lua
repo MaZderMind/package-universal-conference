@@ -4,11 +4,11 @@ local time = require "tool_time"
 local font = resource.load_font("data_silkscreen.ttf")
 
 local function feeder()
-    return CONFIG.scroller
+    return CONFIG.scroller_text
 end
 
 local function is_enabled()
-    return #CONFIG.scroller > 0
+    return #CONFIG.scroller_text > 0
 end
 
 local text = util.running_text{
@@ -29,8 +29,11 @@ local function hide(duration)
 end
 
 local function draw()
+    local color = CONFIG.scroller_background.rgba_table
+
+    local bg = resource.create_colored_texture(unpack(color))
     if visibility > 0.01 then
-        -- black:draw(0, HEIGHT-45, WIDTH, HEIGHT, visibility/3)
+        bg:draw(0, HEIGHT-45, WIDTH, HEIGHT, 1)
         text:draw(HEIGHT - visibility * 42)
     end
 end

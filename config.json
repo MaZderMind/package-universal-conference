@@ -20,7 +20,8 @@
     }
   ],
 
-  "scroller": "@infobeamer\nhttps://info-beamer.com/pi/\nHave a safe trip home. See you next year at 33C3.",
+  "scroller_text": "@infobeamer\nhttps://info-beamer.com/pi/\nHave a safe trip home. See you next year at 33C3.",
+  "scroller_background": {"r": 0.0, "g": 0.0, "b": 0.0, "a": 0.4},
 
   "nyi_texts": [
     {"text": "Social-Event will start at 21:00"},

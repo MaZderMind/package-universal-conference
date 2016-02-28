@@ -47,11 +47,17 @@
             "type":     "section"
         }, {
             "title":    "Scrolling Text",
-            "name":     "scroller",
+            "name":     "scroller_text",
             "type":     "text",
             "rows":     6,
             "hint":     "Multiple lines will be visually separated",
             "default":  "@infobeamer\nhttps://info-beamer.com/pi/"
+        }, {
+            "title":    "Scrolling Text",
+            "name":     "scroller_background",
+            "type":     "color",
+            "hint":     "Background behind the scrolling Text",
+            "default":  [0,0,0,0]
         }, {
             "title":    "Design – Background",
             "type":     "section"
