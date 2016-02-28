@@ -15,7 +15,11 @@ local Runner       = require "tool_runner"
 local Scheduler    = require "tool_scheduler"
 local Scroller     = require "tool_scroller"
 
+local utils = require "tool_utils"
+
 function node.render()
+    utils.reset_view()
+
     Scheduler.tick()
     Background.tick()
     Runner.tick()

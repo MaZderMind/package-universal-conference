@@ -36,10 +36,6 @@ local function draw_animated(now)
 
     local width, height = surface:size()
 
-    local fov = math.atan2(HEIGHT, WIDTH*2) * 360 / math.pi
-    gl.perspective(fov, WIDTH/2, HEIGHT/2, -WIDTH,
-                        WIDTH/2, HEIGHT/2, 0)
-
     gl.pushMatrix()
     gl.translate(width/2, height/2)
     gl.scale(s, s)

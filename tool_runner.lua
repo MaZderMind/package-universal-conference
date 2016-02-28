@@ -1,4 +1,3 @@
-local utils = require "tool_utils"
 local modules = require "tool_module_loader"
 
 local visuals = {}
@@ -33,8 +32,6 @@ local function tick()
     end
 
     local time = now - visual.starts
-    utils.reset_view()
-
     local ok, err = pcall(module.render, time, visual.duration, visual.state)
 
     if not ok then
