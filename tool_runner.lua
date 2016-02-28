@@ -4,48 +4,41 @@ function Runner(modules)
     local visuals = {}
 
     local function add(visual)
-        local co = coroutine.create(modules[visual.module].run)
-
-        local success, is_finished = coroutine.resume(co, visual.duration, visual.options, {
-            wait_next_frame = function ()
-                return coroutine.yield(false)
-            end;
-            wait_t = function(t)
-                while true do
-                    local now = coroutine.yield(false)
-                    if now >= t then return now end
-                end
-            end;
-            upto_t = function(t) 
-                return function()
-                    local now = coroutine.yield(false)
-                    if now < t then return now end
-                end
-            end;
-        })
-
-        if not success then
-            print("ERROR", debug.traceback(co, string.format("cannot start visual: %s", is_finished)))
-        elseif not is_finished then
-            table.insert(visuals, 1, {
-                co = co;
-                starts = visual.starts;
-            })
-        end
+        table.insert(visuals, visual)
     end
 
     local function tick()
         local now = sys.now()
-        for idx = #visuals,1,-1 do -- iterate backwards so we can remove finished visuals
-            local visual = visuals[idx]
-            utils.reset_view()
-            local success, is_finished = coroutine.resume(visual.co, now - visual.starts)
-            if not success then
-                print("ERROR", debug.traceback(visual.co, string.format("cannot resume visual: %s", is_finished)))
-                table.remove(visuals, idx)
-            elseif is_finished then
-                table.remove(visuals, idx)
-            end
+        local visual = visuals[1]
+
+        if not visual or visual.starts > now then
+            print("ERROR", "nothing scheduled")
+            return
+        end
+        local module = modules[visual.module]
+        if not module then 
+            print("WARNING", "module unloaded")
+            table.remove(visuals, 1)
+
+            return tick()
+        end
+
+        if visual.starts + visual.duration < now then
+            print("INFO", "visual finished & removed", visual.title)
+            pcall(module.dispose, visual.state)
+            table.remove(visuals, 1)
+
+            return tick()
+        end
+
+        local time = now - visual.starts
+        utils.reset_view()
+
+        local ok, err = pcall(module.render, time, visual.duration, visual.state)
+
+        if not ok then
+            print("ERROR", "in render-call", err)
+            table.remove(visuals, 1)
         end
     end
 

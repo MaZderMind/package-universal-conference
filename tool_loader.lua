@@ -25,7 +25,7 @@ function ModuleLoader()
             module_update(module_name, assert(loadstring(resource.load_file(filename), "=" .. filename))())
         end
     end)
-    node.event("content_delete", function(filename)
+    node.event("content_remove", function(filename)
         local module_name = module_name_from_filename(filename)
         if module_name then
             module_unload(module_name)

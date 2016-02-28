@@ -16,22 +16,27 @@ function Scheduler(runner, modules)
     local next_wake = sys.now()
 
     local function enqueue(item)
-        local ok, duration, options = pcall(modules[item.module].prepare, item.options or {})
-        if not ok then
-            print("failed to prepare " .. item.module .. ": " .. duration)
-            return
-        end
+        local options = item.options or {}
+        local ok, duration, state = pcall(modules[item.module].prepare, options)
 
         local visual = {
             starts = next_visual - 1;
             duration = duration;
+            title = item.title or "module-" .. tostring(item.module);
             module = item.module;
+            state = state;
             options = options;
         }
 
+        if not ok then
+            pcall(item.module.dispose, state)
+            print("ERROR", "failed to prepare " .. visual.title)
+            return
+        end
+
         next_visual = next_visual + duration - 1
         next_wake = next_visual - 3
-        print("about to schedule visual ", item.module)
+        print("INFO", "about to schedule visual ", visual.title)
         runner.add(visual)
     end
 
@@ -64,10 +69,10 @@ function Scheduler(runner, modules)
                 end
             end
             if not modules[item.module] then
-                print("module " .. item.module .. " not available")
+                print("INFO", "module not available", item.module)
                 can_schedule = false
             elseif not modules[item.module].can_schedule(item.options) then
-                print("module " .. item.module .. " cannot be scheduled")
+                print("INFO", "module cannot be scheduled", item.module)
                 can_schedule = false
             end
         until can_schedule
