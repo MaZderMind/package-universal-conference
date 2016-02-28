@@ -11,29 +11,14 @@ util.init_hosted()
 
 ------
 
-local ModuleLoader = require "tool_loader"
 local Runner       = require "tool_runner"
 local Scheduler    = require "tool_scheduler"
-
-local Fadeout      = require "tool_fadeout"
 local Scroller     = require "tool_scroller"
-
-local utils        = require "tool_utils"
-
-------
-
-local modules   = ModuleLoader()
-local runner    = Runner(modules)
-local scheduler = Scheduler(runner, modules)
-
-local fadeout   = Fadeout()
-local scroller  = Scroller()
 
 ------
 
 function node.render()
-    scheduler.tick()
-    fadeout.tick()
-    runner.tick()
-    scroller.tick()
+    Scheduler.tick()
+    Runner.tick()
+    Scroller.tick()
 end
