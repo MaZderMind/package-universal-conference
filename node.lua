@@ -6,16 +6,13 @@ HEIGHT = HEIGHT * scale
 
 node.set_flag "slow_gc"
 util.init_hosted()
-
---util.loaders.pkm = resource.load_image
+pp(CONFIG)
 
 ------
 
 local Runner       = require "tool_runner"
 local Scheduler    = require "tool_scheduler"
 local Scroller     = require "tool_scroller"
-
-------
 
 function node.render()
     Scheduler.tick()

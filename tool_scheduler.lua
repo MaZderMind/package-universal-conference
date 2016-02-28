@@ -4,14 +4,7 @@ local time = require "tool_time"
 local runner = require "tool_runner"
 local modules = require "tool_module_loader"
 
-local playlist = {}
 local playlist_offset = 0
-
--- TODO read me from CONFIG
-util.file_watch("data_playlist.json", function(raw)
-    playlist = json.decode(raw)
-    playlist_offset = 0
-end)
 
 local next_visual = sys.now() + 1
 local next_wake = sys.now()
@@ -23,7 +16,7 @@ local function enqueue(item)
     local visual = {
         starts = next_visual - 1;
         duration = duration;
-        title = item.title or "module-" .. tostring(item.module);
+        title = item.title or item.module;
         module = item.module;
         state = state;
         options = options;
@@ -54,10 +47,10 @@ local function tick()
 
     local item, can_schedule
     repeat
-        item, playlist_offset = utils.cycled(playlist, playlist_offset)
+        item, playlist_offset = utils.cycled(CONFIG.playlist, playlist_offset)
         can_schedule = true
         if item.chance then
-            can_schedule = math.random() < item.chance
+            can_schedule = math.random() < (item.chance / 100)
         end
         if item.hours then
             local hours = {}

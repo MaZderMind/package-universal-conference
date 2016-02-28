@@ -3,25 +3,8 @@ local time = require "tool_time"
 
 local font = resource.load_font("data_silkscreen.ttf")
 
-local infos = {}
-
--- TODO read me from CONFIG
-util.file_watch("data_scroll.txt", function(content)
-    infos = {}
-    for line in string.gmatch(content.."\n", "([^\n]*)\n") do
-        if #line > 0 then
-            infos[#infos+1] = line
-        end
-    end
-end)
-
 local function feeder()
-    local out = {}
-    for idx = 1, #infos do
-        out[#out+1] = infos[idx]
-    end
-
-    return out
+    return CONFIG.scroller
 end
 
 local text = util.running_text{

@@ -1,19 +1,57 @@
 {
     "name": "Conference",
-    "options": [    
-    {
-        "title": "Clock",
-        "type": "section"
-    }, {
-        "title": "Time Zone",
-        "ui_width": 4,
-        "name": "timezone",
-        "type": "select",
-        "hint": "The timezone",
-        "options": [
-            ["UTC", "UTC"],
-            ["Europe/Berlin", "Europe/Berlin"]
-        ],
-        "default": "Europe/Berlin"
-    }]
+    "options": [
+        {
+            "title":    "Playlist",
+            "type":     "section"
+        }, {
+            "name":     "playlist",
+            "type":     "list",
+            "title":    "Playlist",
+            "hint":     "The Player cycles through the Playlist, decides for each Item if it can be scheduled then schedules its display.",
+            "itemname": "Playlist Item",
+            "items": [
+                {
+                    "name":     "module",
+                    "title":    "Module to Play back",
+                    "hint":     "You can select the Modules to display and arrange their order",
+                    "type":     "select",
+                    "options":  [
+                        ["schedule", "Schedule & Room-Info"],
+                        ["twitter",  "Twitter-Wall"],
+                        ["text",     "Text-Display"],
+                        ["images",   "Images and Videos"]
+                    ]
+                }, {
+                    "name":     "chance",
+                    "type":     "integer",
+                    "title":    "Chance of this Playlist-Item to be Schedules",
+                    "hint":     "100 = On every turn, 50 = on Every 2nd Turn, 0 = Never",
+                    "default":  "100"
+                }, {
+                    "name":     "scroller",
+                    "type":     "boolean",
+                    "title":    "Show Scroller",
+                    "hint":     "Show or hide the Scroller in this View",
+                    "default":  true
+                }, {
+                    "name":     "clock",
+                    "type":     "boolean",
+                    "title":    "Show Clock",
+                    "hint":     "Show or hide the Clock in this View",
+                    "default":  true
+                }
+            ]
+        }, {
+            "title":    "Scroller",
+            "type":     "section"
+        }, {
+            "title":    "Scrolling Text",
+            "name":     "scroller",
+            "type":     "text",
+            "rows":     6,
+            "hint":     "Multiple lines will be visually separated",
+            "default":  "@infobeamer\nhttps://info-beamer.com/pi/"
+        }
+    ]
 }

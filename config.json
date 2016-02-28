@@ -1,0 +1,62 @@
+{
+  "playlist": [
+    {
+      "module": "schedule",
+      "chance": 100
+    }, {
+      "module": "twitter",
+      "chance": 50,
+      "scroller": false,
+      "clock": false
+    }, {
+      "module": "flickr",
+      "chance": 100
+    }, {
+      "module": "text",
+      "chance": 25
+    }, {
+      "module": "images",
+      "chance": 50
+    }
+  ],
+
+  "scroller": "@infobeamer\nhttps://info-beamer.com/pi/\nHave a safe trip home. See you next year at 33C3.",
+
+  "texts": [
+    {"text": "Social-Event will start at 21:00"},
+    {"text": "Don't leave your Luggage unattended"}
+  ],
+
+  "images": [
+    {"image": "lala.jpg"}
+  ],
+
+  "clock": {
+    "enabled": true,
+    "placement": "bottom-right",
+    "background": "clock-bg.png"
+  },
+
+  "design": {
+    "background": {
+      "images": [
+        "assets/foss4g-bg-1.jpg",
+        "assets/foss4g-bg-2.jpg",
+        "assets/foss4g-bg-3.jpg"
+      ],
+      "blur": 4,
+      "duration": 5,
+      "moving": true
+    },
+
+    "fonts": {
+      "scroller": "data_silkscreen.ttf",
+      "headlines": "lala.ttf",
+      "body": "lala.ttf"
+    },
+
+    "colors": {
+      "scroller": "#FFFFFF"
+    }
+  }
+}
