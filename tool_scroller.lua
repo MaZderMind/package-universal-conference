@@ -38,7 +38,9 @@ local function tick()
     end
     local current_speed = 0.05
     visibility = visibility * (1-current_speed) + target * (current_speed)
-    draw()
+    if #CONFIG.scroller > 0 then
+        draw()
+    end
 end
 
 
