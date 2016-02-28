@@ -18,6 +18,39 @@ local graphic
 local next_graphic
 local valid_until = 0
 
+local function draw_still()
+    util.draw_correct(graphic, 0, 0, WIDTH, HEIGHT, 1)
+end
+
+local function draw_animated(now)
+    local t = now / 10
+
+    local x = math.sin(t/1) * 7 + 7
+    local y = math.cos(t/0.6) * 10
+    local z = math.cos(t/3) * 1
+    local dx = math.sin(t/6) * 100
+    local dy = math.sin(t/6) * 5 - 30
+    local s = 1.3
+
+    local width, height = graphic:size()
+
+    local fov = math.atan2(HEIGHT, WIDTH*2) * 360 / math.pi
+    gl.perspective(fov, WIDTH/2, HEIGHT/2, -WIDTH,
+                               WIDTH/2, HEIGHT/2, 0)
+
+    gl.pushMatrix()
+    gl.translate(width/2, height/2)
+    gl.scale(s, s)
+    gl.rotate(x, 1, 0, 0)
+    gl.rotate(y, 0, 1, 0)
+    gl.rotate(z, 0, 0, 1)
+    gl.translate(-width/2, -height/2)
+    gl.translate(dx, dy)
+    util.draw_correct(graphic, 0, 0, WIDTH, HEIGHT, 1)
+    gl.popMatrix()
+end
+
+
 M.tick = function()
     local color = CONFIG.background_color.rgba_table
     gl.clear(unpack(color))
@@ -44,31 +77,11 @@ M.tick = function()
         return
     end
 
-    local t = now / 10
-
-    local x = math.sin(t/1) * 7 + 7
-    local y = math.cos(t/0.6) * 10
-    local z = math.cos(t/3) * 1
-    local dx = math.sin(t/6) * 100
-    local dy = math.sin(t/6) * 5 - 30
-    local s = 1.3
-
-    local width, height = graphic:size()
-
-    local fov = math.atan2(HEIGHT, WIDTH*2) * 360 / math.pi
-    gl.perspective(fov, WIDTH/2, HEIGHT/2, -WIDTH,
-                               WIDTH/2, HEIGHT/2, 0)
-
-    gl.pushMatrix()
-    gl.translate(width/2, height/2)
-    gl.scale(s, s)
-    gl.rotate(x, 1, 0, 0)
-    gl.rotate(y, 0, 1, 0)
-    gl.rotate(z, 0, 0, 1)
-    gl.translate(-width/2, -height/2)
-    gl.translate(dx, dy)
-    util.draw_correct(graphic, 0, 0, WIDTH, HEIGHT, 1)
-    gl.popMatrix()
+    if CONFIG.background_animating then
+        draw_animated(now)
+    else
+        draw_still()
+    end
 end
 
 return M

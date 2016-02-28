@@ -45,6 +45,7 @@
       "file": {"type": "image", "filename": "data_bg_city.jpg", "asset_name": "data_bg_city.jpg"}
     }
   ],
+  "background_animating": true,
   "background_rotation_interval": 5,
 
   "nyi_font_scroller": "data_silkscreen.ttf",

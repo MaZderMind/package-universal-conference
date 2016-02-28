@@ -80,6 +80,11 @@
             "name":     "background_rotation_interval",
             "type":     "integer",
             "hint":     "Number of Seconds a Background-Image is visible"
+        }, {
+            "title":    "Background-Image Animation",
+            "name":     "background_animating",
+            "type":     "boolean",
+            "hint":     "Should the Background-Images be (slightly) animated?"
         }
     ]
 }
