@@ -23,7 +23,7 @@ local function enqueue(item)
     }
 
     if not ok then
-        pcall(item.module.dispose, state)
+        pcall(modules[item.module].dispose, state)
         print("ERROR", "failed to prepare " .. visual.title)
         return
     end
