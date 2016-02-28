@@ -35,7 +35,7 @@
   "nyi_placement": "bottom-right",
   "nyi_background": "clock-bg.png",
 
-  "background_color": {"r": 0.8, "g": 0.8, "b": 0.8, "a": 1},
+  "background_color": {"r": 0.2, "g": 0.2, "b": 0.2, "a": 1},
   "background_graphics": [
     {
       "file": {"type": "image", "filename": "data_bg_ship.jpg", "asset_name": "data_bg_ship.jpg"}
