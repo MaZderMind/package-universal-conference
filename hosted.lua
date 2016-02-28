@@ -189,7 +189,11 @@ local function parse_config(options, config)
                     end
                     target[name] = list
                 else
-                    target[name] = types[option.type](config[name])
+                    if types[option.type] == nil then
+                        print("ERROR", "unknown type " .. option.type .. " in option " .. name)
+                    else
+                        target[name] = types[option.type](config[name])
+                    end
                 end
             end
         end
