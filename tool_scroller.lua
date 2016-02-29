@@ -1,8 +1,6 @@
 local json = require "json"
 local time = require "tool_time"
 
-local font = resource.load_font("data_silkscreen.ttf")
-
 local function feeder()
     return CONFIG.scroller_text
 end
@@ -11,13 +9,16 @@ local function is_enabled()
     return #CONFIG.scroller_text > 0
 end
 
-local text = util.running_text{
-    font = font;
-    size = 40;
-    speed = 120;
-    color = {1,1,1,.8};
-    generator = util.generator(feeder)
-}
+local text
+util.file_watch("config.json", function(raw)
+    text = util.running_text{
+        font = CONFIG.scroller_font;
+        size = 40;
+        speed = CONFIG.scroller_speed;
+        color = CONFIG.scroller_color.rgba_table;
+        generator = util.generator(feeder)
+    }
+end)
 
 local visibility = 0
 local target = 0

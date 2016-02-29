@@ -22,6 +22,9 @@
 
   "scroller_text": "@infobeamer\nhttps://info-beamer.com/pi/\nHave a safe trip home. See you next year at 33C3.",
   "scroller_background": {"r": 0.0, "g": 0.0, "b": 0.0, "a": 0.4},
+  "scroller_font": {"type": "font", "filename": "data_font.ttf", "asset_name": "data_font.ttf"},
+  "scroller_color": {"r": 1, "g": 1, "b": 1, "a": 0.8},
+  "scroller_speed": 120,
 
   "nyi_texts": [
     {"text": "Social-Event will start at 21:00"},
@@ -49,9 +52,6 @@
   "background_animating": true,
   "background_rotation_interval": 30,
 
-  "nyi_font_scroller": "data_silkscreen.ttf",
   "nyi_font_headlines": "lala.ttf",
-  "nyi_font_body": "lala.ttf",
-
-  "nyi_color_scroller": {"r": 1, "g": 1, "b": 1, "a": 1}
+  "nyi_font_body": "lala.ttf"
 }

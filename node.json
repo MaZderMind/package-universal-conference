@@ -53,11 +53,26 @@
             "hint":     "Multiple lines will be visually separated",
             "default":  "@infobeamer\nhttps://info-beamer.com/pi/"
         }, {
-            "title":    "Scrolling Text",
+            "title":    "Scrolling Text Background-Color",
             "name":     "scroller_background",
             "type":     "color",
             "hint":     "Background behind the scrolling Text",
-            "default":  [0,0,0,0]
+            "default":  [0,0,0,0.4]
+        }, {
+            "title":    "Scrolling Text Speed",
+            "name":     "scroller_speed",
+            "type":     "integer",
+            "default":  120
+        }, {
+            "title":    "Scrolling Text Font",
+            "name":     "scroller_font",
+            "type":     "font",
+            "default":  "data_font.ttf"
+        }, {
+            "title":    "Scrolling Text Color",
+            "name":     "scroller_color",
+            "type":     "color",
+            "default":  [1,1,1,0.8]
         }, {
             "title":    "Design – Background",
             "type":     "section"
