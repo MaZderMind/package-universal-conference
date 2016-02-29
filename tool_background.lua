@@ -81,7 +81,6 @@ M.tick = function()
             y = utils.make_smooth(splines.y);
             s = utils.make_smooth(splines.s);
         }
-        pp(splines)
     end
 
     if graphic == nil then
