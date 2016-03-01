@@ -1,4 +1,4 @@
-local utils = require "tool_utils"
+local tools = require("lib/tools")
 local M = {}
 
 local function feeder()
@@ -36,7 +36,7 @@ local function draw_animated(t)
 end
 
 
-M.tick = function()
+function M.render()
     local color = CONFIG.background_color.rgba_table
     gl.clear(unpack(color))
 
@@ -61,33 +61,36 @@ M.tick = function()
         next_graphic = nil
         valid_until = now + background_rotation_interval
 
-        local i = background_rotation_interval
-        local splines = {
-            x = {
-                {t = now,            val = (-0.05 + math.random() * -0.2) * WIDTH},
-                {t = valid_until,    val = (-0.00 + math.random() * -0.2) * WIDTH},
-            };
-            y = {
-                {t = now,            val = (-0.03 + math.random() * -0.1) * HEIGHT},
-                {t = valid_until,    val = (-0.00 + math.random() * -0.2) * HEIGHT},
-            };
-            s = {
-                {t = now,            val = 1.2 + math.random() * 0.2},
-                {t = valid_until,    val = 1.2 + math.random() * 0.2},
-            };
-        }
-        animation = {
-            x = utils.make_smooth(splines.x);
-            y = utils.make_smooth(splines.y);
-            s = utils.make_smooth(splines.s);
-        }
+        if CONFIG.background_animating then
+            local i = background_rotation_interval
+            local splines = {
+                x = {
+                    {t = now,            val = (-0.05 + math.random() * -0.2) * WIDTH},
+                    {t = valid_until,    val = (-0.00 + math.random() * -0.2) * WIDTH},
+                };
+                y = {
+                    {t = now,            val = (-0.03 + math.random() * -0.1) * HEIGHT},
+                    {t = valid_until,    val = (-0.00 + math.random() * -0.2) * HEIGHT},
+                };
+                s = {
+                    {t = now,            val = 1.5 + math.random() * 0.2},
+                    {t = valid_until,    val = 1.2 + math.random() * 0.2},
+                };
+            }
+            print("calculating animation path")
+            animation = {
+                x = tools.make_smooth(splines.x);
+                y = tools.make_smooth(splines.y);
+                s = tools.make_smooth(splines.s);
+            }
+        end
     end
 
     if graphic == nil then
         return
     end
 
-    if CONFIG.background_animating then
+    if CONFIG.background_animating and animation then
         draw_animated(now)
     else
         draw_still()

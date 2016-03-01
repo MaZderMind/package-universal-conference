@@ -5,23 +5,38 @@ WIDTH = WIDTH * scale
 HEIGHT = HEIGHT * scale
 
 node.set_flag "slow_gc"
+
+assert(sys.provides "nested-nodes", "nested nodes feature missing")
+node.make_nested()
+
 util.init_hosted()
-pp(CONFIG)
 
-------
+-- load library classes
+local Loader            = require("lib/loader")
+local RunnerScheduled   = require("lib/runner-scheduled")
+local RunnerSingle      = require("lib/runner-single")
+local Scheduler         = require("lib/scheduler")
 
-local Background   = require "tool_background"
-local Runner       = require "tool_runner"
-local Scheduler    = require "tool_scheduler"
-local Scroller     = require "tool_scroller"
+-- create instances
+--- content is scheduled based on a playlist
+local content_loader    = Loader.new('content')
+local content_runner    = RunnerScheduled.new(content_loader)
+local content_scheduler = Scheduler.new(content_loader, content_runner)
 
-local utils = require "tool_utils"
+--- osd elements run always and decide theirselfs if they need to draw sth.
+local osd_loader        = Loader.new('osd')
+local osd_runner        = RunnerSingle.new(osd_loader)
+
+
+local tools             = require "lib/tools"
 
 function node.render()
-    utils.reset_view()
+	tools.reset_view()
 
-    Scheduler.tick()
-    Background.tick()
-    Runner.tick()
-    Scroller.tick()
+	osd_runner:run('background')
+	content_scheduler:tick()
+	content_runner:tick()
+
+	osd_runner:run('scroller')
+	osd_runner:run('clock')
 end

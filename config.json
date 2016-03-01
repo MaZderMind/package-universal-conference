@@ -22,7 +22,7 @@
 
   "scroller_text": "@infobeamer\nhttps://info-beamer.com/pi/\nHave a safe trip home. See you next year at 33C3.",
   "scroller_background": {"r": 0.0, "g": 0.0, "b": 0.0, "a": 0.4},
-  "scroller_font": {"type": "font", "filename": "data_font.ttf", "asset_name": "data_font.ttf"},
+  "scroller_font": {"type": "font", "filename": "assets/fonts/roboto-condensed.ttf", "asset_name": "assets/fonts/roboto-condensed.ttf"},
   "scroller_color": {"r": 1, "g": 1, "b": 1, "a": 0.8},
   "scroller_speed": 120,
 
@@ -42,11 +42,11 @@
   "background_color": {"r": 0.2, "g": 0.2, "b": 0.2, "a": 1},
   "background_graphics": [
     {
-      "file": {"type": "image", "filename": "data_bg_ship.jpg", "asset_name": "data_bg_ship.jpg"}
+      "file": {"type": "image", "filename": "assets/backgrounds/ship.jpg", "asset_name": "assets/backgrounds/ship.jpg"}
     }, {
-      "file": {"type": "image", "filename": "data_bg_sunset.jpg", "asset_name": "data_bg_sunset.jpg"}
+      "file": {"type": "image", "filename": "assets/backgrounds/sunset.jpg", "asset_name": "assets/backgrounds/sunset.jpg"}
     }, {
-      "file": {"type": "image", "filename": "data_bg_city.jpg", "asset_name": "data_bg_city.jpg"}
+      "file": {"type": "image", "filename": "assets/backgrounds/city.jpg", "asset_name": "assets/backgrounds/city.jpg"}
     }
   ],
   "background_animating": true,
