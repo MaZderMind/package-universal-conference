@@ -25,6 +25,7 @@
   "scroller_font": {"type": "font", "filename": "assets/fonts/roboto-condensed.ttf", "asset_name": "assets/fonts/roboto-condensed.ttf"},
   "scroller_color": {"r": 1, "g": 1, "b": 1, "a": 0.8},
   "scroller_speed": 120,
+  "scroller_size": 40,
 
   "nyi_texts": [
     {"text": "Social-Event will start at 21:00"},

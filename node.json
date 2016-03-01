@@ -64,6 +64,11 @@
             "type":     "integer",
             "default":  120
         }, {
+            "title":    "Scrolling Size",
+            "name":     "scroller_size",
+            "type":     "integer",
+            "default":  40
+        }, {
             "title":    "Scrolling Text Font",
             "name":     "scroller_font",
             "type":     "font",
