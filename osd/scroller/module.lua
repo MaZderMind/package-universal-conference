@@ -12,30 +12,13 @@ end
 
 local text
 util.file_watch("config.json", function(raw)
-	local font
-	local size
-	local speed
-	local color
-
-	if
-		font ~= CONFIG.scroller_font or
-		size ~= CONFIG.scroller_size or
-		speed ~= CONFIG.scroller_speed or
-		color ~= CONFIG.scroller_color.rgba_table
-	then
-		font = CONFIG.scroller_font
-		size = CONFIG.scroller_size
-		speed = CONFIG.scroller_speed
-		color = CONFIG.scroller_color.rgba_table
-
-		text = util.running_text{
-			font = font;
-			size = size;
-			speed = speed;
-			color = color;
-			generator = util.generator(feeder)
-		}
-	end
+	text = util.running_text{
+		font = CONFIG.scroller_font;
+		size = CONFIG.scroller_size;
+		speed = CONFIG.scroller_speed;
+		color = CONFIG.scroller_color.rgba_table;
+		generator = util.generator(feeder)
+	}
 end)
 
 local visibility = 0
