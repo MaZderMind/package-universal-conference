@@ -27,17 +27,17 @@ function Runner:tick()
 	local module = self.loader.modules[visual.module]
 	if not module then
 		print("WARNING", "module unloaded")
-		table.remove(visuals, 1)
+		table.remove(self.visuals, 1)
 
-		return tick()
+		return self:tick()
 	end
 
 	if visual.starts + visual.duration < now then
 		print("INFO", "visual finished & removed", visual.title)
 		pcall(module.dispose, visual.state)
-		table.remove(visuals, 1)
+		table.remove(self.visuals, 1)
 
-		return tick()
+		return self:tick()
 	end
 
 	local time = now - visual.starts
@@ -45,7 +45,7 @@ function Runner:tick()
 
 	if not ok then
 		print("ERROR", "in render-call", err)
-		table.remove(visuals, 1)
+		table.remove(self.visuals, 1)
 		return
 	end
 end
