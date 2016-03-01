@@ -27,6 +27,12 @@
   "scroller_speed": 120,
   "scroller_size": 40,
 
+  "clock_placement": "tl",
+  "clock_background": {"r": 0.0, "g": 0.0, "b": 0.0, "a": 0},
+  "clock_font": {"type": "font", "filename": "assets/fonts/roboto-condensed.ttf", "asset_name": "assets/fonts/roboto-condensed.ttf"},
+  "clock_color": {"r": 1, "g": 1, "b": 1, "a": 0.6},
+  "clock_size": 80,
+
   "nyi_texts": [
     {"text": "Social-Event will start at 21:00"},
     {"text": "Don't leave your Luggage unattended"}

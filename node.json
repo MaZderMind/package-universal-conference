@@ -42,7 +42,10 @@
                     "default":  true
                 }
             ]
-        }, {
+        },
+
+
+        {
             "title":    "Scroller",
             "type":     "section"
         }, {
@@ -78,7 +81,52 @@
             "name":     "scroller_color",
             "type":     "color",
             "default":  [1,1,1,0.8]
+        },
+
+
+        {
+            "title":    "Clock",
+            "type":     "section"
         }, {
+            "title":    "Clock Platzierung",
+            "name":     "clock_placement",
+            "type":     "select",
+            "hint":     "Where should the Clock be placed on the Screen",
+            "default":  "swing",
+            "options":  [
+                ["none",  "No Clock"],
+                ["tl",    "Top Left"],
+                ["tc",    "Top Center"],
+                ["tr",    "Top Right"],
+                ["bl",    "Bottom Left"],
+                ["bc",    "Bottom Center"],
+                ["br",    "Bottom Right"]
+            ]
+        }, {
+            "title":    "Clock Background-Color",
+            "name":     "clock_background",
+            "type":     "color",
+            "hint":     "Background behind the Clock",
+            "default":  [0,0,0,0]
+        }, {
+            "title":    "Clock",
+            "name":     "clock_size",
+            "type":     "integer",
+            "default":  80
+        }, {
+            "title":    "Clock Font",
+            "name":     "clock_font",
+            "type":     "font",
+            "default":  "data_font.ttf"
+        }, {
+            "title":    "Clock Color",
+            "name":     "clock_color",
+            "type":     "color",
+            "default":  [1,1,1,0.6]
+        },
+
+
+        {
             "title":    "Design – Background",
             "type":     "section"
         }, {
