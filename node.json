@@ -105,12 +105,19 @@
             "title":    "Background-Image Rotation",
             "name":     "background_rotation_interval",
             "type":     "integer",
-            "hint":     "Number of Seconds a Background-Image is visible"
+            "hint":     "Number of Seconds a Background-Image is visible",
+            "default":  60
         }, {
             "title":    "Background-Image Animation",
             "name":     "background_animating",
-            "type":     "boolean",
-            "hint":     "Should the Background-Images be (slightly) animated?"
+            "type":     "select",
+            "hint":     "Should the Background-Images be (slightly) animated?",
+            "default":  "swing",
+            "options":  [
+                ["swing",    "3D Swing on 3 Axis"],
+                ["none",     "No Animation"],
+                ["kenburns", "KenBurns Zoom-and-Pan"]
+            ]
         }
     ]
 }

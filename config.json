@@ -50,8 +50,8 @@
       "file": {"type": "image", "filename": "assets/backgrounds/city.jpg", "asset_name": "assets/backgrounds/city.jpg"}
     }
   ],
-  "background_animating": true,
-  "background_rotation_interval": 30,
+  "background_animating": "swing",
+  "background_rotation_interval": 60,
 
   "nyi_font_headlines": "lala.ttf",
   "nyi_font_body": "lala.ttf"
