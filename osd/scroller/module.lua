@@ -35,9 +35,10 @@ local function draw()
 	local size = CONFIG.scroller_size
 
 	local bg = resource.create_colored_texture(unpack(bgcolor))
+	local padv = 2.5
 	if visibility > 0.01 then
-		bg:draw(0, HEIGHT-(size + 5), WIDTH, HEIGHT, 1)
-		text:draw(HEIGHT - visibility * (size + 2.5))
+		bg:draw(0, HEIGHT-(size + padv + padv), WIDTH, HEIGHT, 1)
+		text:draw(HEIGHT - visibility * (size + padv))
 	end
 end
 
