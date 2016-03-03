@@ -200,13 +200,17 @@ local function parse_config(options, config)
             local name = option.name
             if name then
                 if option.type == "list" then
-                    local list = {}
-                    for _, child_config in ipairs(config[name]) do
-                        local child = {}
-                        parse_recursive(option.items, child_config, child)
-                        list[#list + 1] = child
+                    if type(config[name]) ~= "table" then
+                        target[name] = nil
+                    else
+                        local list = {}
+                        for _, child_config in ipairs(config[name]) do
+                            local child = {}
+                            parse_recursive(option.items, child_config, child)
+                            list[#list + 1] = child
+                        end
+                        target[name] = list
                     end
-                    target[name] = list
                 else
                     if types[option.type] == nil then
                         print("ERROR", "unknown type " .. option.type .. " in option " .. name)
