@@ -32,6 +32,8 @@ function M.hide(duration)
 end
 
 local function draw()
+	if type(text) == 'nil' then return nil end
+
 	local bgcolor = CONFIG.scroller_background.rgba_table
 	local size = CONFIG.scroller_size
 
