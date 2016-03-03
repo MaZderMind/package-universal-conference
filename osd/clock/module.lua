@@ -4,7 +4,7 @@ function M.render()
 	local scroller = CONFIG.scroller_size+5
 	local font = CONFIG.clock_font
 	local color = CONFIG.clock_color.rgba_table
-	local bgcolor = CONFIG.clock_background.rgba_table
+	local bgimg = CONFIG.clock_background_image
 
 	local txt = "00:28"
 
@@ -21,8 +21,26 @@ function M.render()
 	}
 	local place = places[CONFIG.clock_placement]
 	if place then
-		local bg = resource.create_colored_texture(unpack(bgcolor))
-		bg:draw(place.x, place.y, place.x+w, place.y+sz, 1)
+		local bgcolor = CONFIG.clock_background
+		if bgcolor then
+			local bg = resource.create_colored_texture(unpack(bgcolor.rgba_table))
+			bg:draw(
+				place.x,
+				place.y,
+				place.x + w,
+				place.y + sz,
+				1
+			)
+		end
+		if bgimg then
+			bgimg.draw(
+				place.x,
+				place.y,
+				place.x + w,
+				place.y + sz,
+				1
+			)
+		end
 		font:write(place.x, place.y, txt, sz, unpack(color))
 	end
 end
