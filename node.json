@@ -92,7 +92,7 @@
             "name":     "clock_placement",
             "type":     "select",
             "hint":     "Where should the Clock be placed on the Screen",
-            "default":  "swing",
+            "default":  "tl",
             "options":  [
                 ["none",  "No Clock"],
                 ["tl",    "Top Left"],
