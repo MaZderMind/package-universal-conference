@@ -1,4 +1,5 @@
 local time = require("lib/time")
+local config = require("lib/config")
 
 local M = {}
 
@@ -11,15 +12,18 @@ local function is_enabled()
 end
 
 local text
-util.file_watch("config.json", function(raw)
-	text = util.running_text{
-		font = CONFIG.scroller_font;
-		size = CONFIG.scroller_size;
-		speed = CONFIG.scroller_speed;
-		color = CONFIG.scroller_color.rgba_table;
-		generator = util.generator(feeder)
-	}
-end)
+config.on_option_changed(
+	{'scroller_font', 'scroller_size', 'scroller_speed', 'scroller_color'},
+	function()
+		text = util.running_text{
+			font = CONFIG.scroller_font;
+			size = CONFIG.scroller_size;
+			speed = CONFIG.scroller_speed;
+			color = CONFIG.scroller_color.rgba_table;
+			generator = util.generator(feeder)
+		}
+	end
+)
 
 local visibility = 0
 local target = 0
