@@ -43,10 +43,6 @@
     {"image": "lala.jpg"}
   ],
 
-  "nyi_clock_enabled": true,
-  "nyi_placement": "bottom-right",
-  "nyi_background": "clock-bg.png",
-
   "background_color": {"r": 0.2, "g": 0.2, "b": 0.2, "a": 1},
   "background_graphics": [
     {
