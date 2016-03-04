@@ -54,8 +54,10 @@ function draw()
 		};
 	}
 	local place = places[CONFIG.clock_placement]
+
 	if place then
 		local bgcolor = CONFIG.clock_background
+
 		if bgcolor then
 			local bg = resource.create_colored_texture(unpack(bgcolor.rgba_table))
 			-- additional padding is to cater for font specialities
@@ -67,6 +69,7 @@ function draw()
 				1
 			)
 		end
+
 		if bgimg then
 			bgimg.draw(
 				place.x - padh - 2.5,
