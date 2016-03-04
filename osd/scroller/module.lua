@@ -24,6 +24,7 @@ end)
 local visibility = 0
 local target = 0
 local restore = sys.now() + 1
+local showhide_speed = 0.05
 
 function M.hide(duration)
 	target = 0
@@ -42,13 +43,12 @@ local function draw()
 	end
 end
 
-local current_speed = 0.05
 function M.render()
 	if sys.now() > restore then
 		target = 1
 	end
 
-	visibility = visibility * (1-current_speed) + target * (current_speed)
+	visibility = visibility * (1-showhide_speed) + target * (showhide_speed)
 	if is_enabled() then
 		draw()
 	end
