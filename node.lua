@@ -34,9 +34,26 @@ function node.render()
 	tools.reset_view()
 
 	osd_runner:run('background')
+
+	usable_area = {
+		x = 0;
+		y = 0;
+		w = WIDTH;
+		h = HEIGHT;
+	}
+
+	if other_osd_modules['scroller'] then
+		usable_area.h = usable_area.h - other_osd_modules['scroller'].get_height()
+	end
+
+	if other_osd_modules['sidebar'] then
+		usable_area.w = usable_area.w - other_osd_modules['sidebar'].get_width()
+	end
+
 	content_scheduler:tick()
-	content_runner:tick()
+	content_runner:tick(usable_area)
 
 	osd_runner:run('scroller')
+	osd_runner:run('sidebar')
 	osd_runner:run('clock')
 end

@@ -15,7 +15,7 @@ function Runner:add(visual)
 	table.insert(self.visuals, visual)
 end
 
-function Runner:tick()
+function Runner:tick(usable_area)
 	local now = sys.now()
 	local visual = self.visuals[1]
 
@@ -41,7 +41,7 @@ function Runner:tick()
 	end
 
 	local time = now - visual.starts
-	local ok, err = pcall(module.render, time, visual.duration, visual.state)
+	local ok, err = pcall(module.render, time, visual.duration, usable_area, visual.state)
 
 	if not ok then
 		print("ERROR", "in render-call", err)
