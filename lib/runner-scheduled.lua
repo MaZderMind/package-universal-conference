@@ -29,7 +29,7 @@ function Runner:tick(usable_area)
 		print("WARNING", "scheduler-runner: current module not available:", visual.module)
 		table.remove(self.visuals, 1)
 
-		return self:tick()
+		return self:tick(usable_area)
 	end
 
 	if visual.starts + visual.duration < now then
@@ -37,7 +37,7 @@ function Runner:tick(usable_area)
 		pcall(module.dispose, visual.state)
 		table.remove(self.visuals, 1)
 
-		return self:tick()
+		return self:tick(usable_area)
 	end
 
 	local time = now - visual.starts
