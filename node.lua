@@ -42,12 +42,12 @@ function node.render()
 		h = HEIGHT;
 	}
 
-	if other_osd_modules['scroller'] then
-		usable_area.h = usable_area.h - other_osd_modules['scroller'].get_height()
+	if osd_loader.modules['scroller'] then
+		usable_area.h = usable_area.h - osd_loader.modules['scroller'].get_height()
 	end
 
-	if other_osd_modules['sidebar'] then
-		usable_area.w = usable_area.w - other_osd_modules['sidebar'].get_width()
+	if osd_loader.modules['sidebar'] then
+		usable_area.w = usable_area.w - osd_loader.modules['sidebar'].get_width()
 	end
 
 	content_scheduler:tick()
