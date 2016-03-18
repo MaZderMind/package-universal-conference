@@ -116,7 +116,7 @@ function M.render()
 
     if next_graphic and next_graphic.file:get_surface():state() == 'loaded' then
         print("background-graphic is loaded, swapping graphics", next_graphic.file.asset_name)
-        if graphic ~= nil then
+        if graphic ~= nil and graphic.type == "video" then
             graphic.file.unload()
         end
         graphic = next_graphic
