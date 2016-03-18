@@ -128,9 +128,13 @@ local resource_types = {
 
 local types = {
     ["string"] = function(value)
+        if type(value) ~= "string" then return nil end
+
         return value
     end;
     ["text"] = function(value)
+        if type(value) ~= "string" then return nil end
+
         local lines = {}
         for line in string.gmatch(value, "[^\r\n]+") do
             lines[#lines + 1] = line
@@ -138,18 +142,27 @@ local types = {
         return lines
     end;
     ["integer"] = function(value)
+        if type(value) ~= "number" then return nil end
+
         return value
     end;
     ["select"] = function(value)
+        if type(value) ~= "string" then return nil end
+
         return value
     end;
     ["boolean"] = function(value)
+        if type(value) ~= "boolean" then return nil end
+
         return value
     end;
     ["duration"] = function(value)
         return value
     end;
     ["color"] = function(value)
+        if type(value) ~= "table" then return nil end
+
+
         local color = {}
         color.r = value.r
         color.g = value.g
@@ -168,9 +181,15 @@ local types = {
         return color
     end;
     ["resource"] = function(value)
+        if type(value) ~= "table" then return nil end
+
+
         return resource_types[value.type](value)
     end;
     ["font"] = function(value)
+        if type(value) ~= "table" then return nil end
+
+
         return resource.load_font(value.asset_name)
     end;
 }
@@ -181,13 +200,17 @@ local function parse_config(options, config)
             local name = option.name
             if name then
                 if option.type == "list" then
-                    local list = {}
-                    for _, child_config in ipairs(config[name]) do
-                        local child = {}
-                        parse_recursive(option.items, child_config, child)
-                        list[#list + 1] = child
+                    if type(config[name]) ~= "table" then
+                        target[name] = nil
+                    else
+                        local list = {}
+                        for _, child_config in ipairs(config[name]) do
+                            local child = {}
+                            parse_recursive(option.items, child_config, child)
+                            list[#list + 1] = child
+                        end
+                        target[name] = list
                     end
-                    target[name] = list
                 else
                     if types[option.type] == nil then
                         print("ERROR", "unknown type " .. option.type .. " in option " .. name)
