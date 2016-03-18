@@ -3,7 +3,6 @@ local config = require("lib/config")
 
 local M = {}
 local showhide_speed = 0.05
-local padv = 2.5
 
 local function feeder()
 	return CONFIG.scroller_text
@@ -57,13 +56,13 @@ local function draw(usable_area)
 
 	bg:draw(
 		0,
-		usable_area.y + usable_area.h - ( visibility * (size - padv - padv) ),
+		usable_area.y + usable_area.h - ( visibility * (size + CONFIG.scroller_padding + CONFIG.scroller_padding) ),
 		usable_area.x + usable_area.w,
 		usable_area.y + usable_area.h,
 		1
 	)
 	text:draw(
-		usable_area.y + usable_area.h - ( visibility * (size + padv) )
+		usable_area.y + usable_area.h - ( visibility * (size + CONFIG.scroller_padding) )
 	)
 end
 

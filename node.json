@@ -72,6 +72,11 @@
             "type":     "integer",
             "default":  40
         }, {
+            "title":    "Scrolling Padding",
+            "name":     "scroller_padding",
+            "type":     "integer",
+            "default":  3
+        }, {
             "title":    "Scrolling Text Font",
             "name":     "scroller_font",
             "type":     "font",
