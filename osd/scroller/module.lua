@@ -15,9 +15,9 @@ end
 
 function M.get_height()
 	if M.is_enabled() then
-		return 0
+		return CONFIG.scroller_size + CONFIG.scroller_padding + CONFIG.scroller_padding
 	else
-		return CONFIG.scroller_size + padv + padv
+		return 0
 	end
 end
 
