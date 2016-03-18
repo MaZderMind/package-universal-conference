@@ -13,7 +13,7 @@ end
 function Runner:run(which)
 	local module = self.loader.modules[which]
 	if not module then
-		print("WARNING", "module unloaded")
+		print("WARNING", "single-runner: current module not available:", which)
 		return
 	end
 

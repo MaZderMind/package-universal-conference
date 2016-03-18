@@ -26,7 +26,7 @@ function Runner:tick()
 
 	local module = self.loader.modules[visual.module]
 	if not module then
-		print("WARNING", "module unloaded")
+		print("WARNING", "scheduler-runner: current module not available:", visual.module)
 		table.remove(self.visuals, 1)
 
 		return self:tick()
