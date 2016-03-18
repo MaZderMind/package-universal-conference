@@ -28,6 +28,9 @@
 -- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 local resource_types = {
+    ["none"] = function(value)
+        return nil
+    end;
     ["image"] = function(value)
         local surface
         local image = {
