@@ -15,7 +15,7 @@ function Runner:add(visual)
 	table.insert(self.visuals, visual)
 end
 
-function Runner:tick()
+function Runner:tick(usable_area)
 	local now = sys.now()
 	local visual = self.visuals[1]
 
@@ -29,7 +29,7 @@ function Runner:tick()
 		print("WARNING", "scheduler-runner: current module not available:", visual.module)
 		table.remove(self.visuals, 1)
 
-		return self:tick()
+		return self:tick(usable_area)
 	end
 
 	if visual.starts + visual.duration < now then
@@ -37,11 +37,11 @@ function Runner:tick()
 		pcall(module.dispose, visual.state)
 		table.remove(self.visuals, 1)
 
-		return self:tick()
+		return self:tick(usable_area)
 	end
 
 	local time = now - visual.starts
-	local ok, err = pcall(module.render, time, visual.duration, visual.state)
+	local ok, err = pcall(module.render, time, visual.duration, usable_area, visual.state)
 
 	if not ok then
 		print("ERROR", "in render-call", err)

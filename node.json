@@ -72,6 +72,11 @@
             "type":     "integer",
             "default":  40
         }, {
+            "title":    "Scrolling Padding",
+            "name":     "scroller_padding",
+            "type":     "integer",
+            "default":  3
+        }, {
             "title":    "Scrolling Text Font",
             "name":     "scroller_font",
             "type":     "font",
@@ -131,6 +136,16 @@
             "default":  [1,1,1,0.6]
         },
 
+        {
+            "title":    "Sidebar",
+            "type":     "section"
+        }, {
+            "title":    "Sidebar Width",
+            "name":     "sidebar_width",
+            "type":     "integer",
+            "hint":     "How wide should the Sidebar be",
+            "default":  "200"
+        },
 
         {
             "title":    "Design – Background",

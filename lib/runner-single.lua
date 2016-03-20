@@ -17,7 +17,7 @@ function Runner:run(which)
 		return
 	end
 
-	local ok, err = pcall(module.render)
+	local ok, err = pcall(module.render, self.loader.modules)
 
 	if not ok then
 		print("ERROR", "in render-call", err)
