@@ -17,6 +17,11 @@ function M.walltime()
     end
 end
 
+function M.walltime_text()
+    local h, m = M.walltime()
+    return string.format("%02d:%02d", h, m)
+end
+
 util.data_mapper{
     ["clock/unix"] = function(time)
         -- print("new time: ", time)

@@ -28,7 +28,7 @@
   "scroller_size": 40,
   "scroller_padding": 10,
 
-  "clock_placement": "tl",
+  "clock_placement": "sidebar",
   "clock_background": {"r": 0.0, "g": 0.0, "b": 0.0, "a": 0.4},
   "clock_background_image": {"type": "none"},
   "clock_font": {"type": "font", "filename": "assets/fonts/roboto-condensed.ttf", "asset_name": "assets/fonts/roboto-condensed.ttf"},
@@ -36,6 +36,20 @@
   "clock_size": 80,
 
   "sidebar_width": 400,
+  "sidebar_background": {"r": 0.0, "g": 0.0, "b": 0.0, "a": 0.4},
+  "sidebar_background_image": {"type": "none"},
+  "sidebar_images": [
+    {
+      "file": {"type": "image", "filename": "assets/sidebar/foss4g.png", "asset_name": "assets/sidebar/foss4g.png"},
+      "duration": 10
+    }, {
+      "file": {"type": "image", "filename": "assets/sidebar/google.png", "asset_name": "assets/sidebar/google.png"},
+      "duration": 5
+    }, {
+      "file": {"type": "image", "filename": "assets/sidebar/geops.png", "asset_name": "assets/sidebar/geops.png"},
+      "duration": 4
+    }
+  ],
 
   "nyi_texts": [
     {"text": "Social-Event will start at 21:00"},

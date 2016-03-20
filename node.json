@@ -145,6 +145,18 @@
             "type":     "integer",
             "hint":     "How wide should the Sidebar be",
             "default":  "200"
+        }, {
+            "title":    "Sidebar Background-Color",
+            "name":     "sidebar_background",
+            "type":     "color",
+            "hint":     "Background behind the scrolling Sidebar",
+            "default":  [0,0,0,0.4]
+        }, {
+            "title":    "Sidebar Background-Image",
+            "name":     "sidebar_background_image",
+            "type":     "resource",
+            "hint":     "An Image placed behind the Clock",
+            "valid":    ["image", "child"]
         },
 
         {

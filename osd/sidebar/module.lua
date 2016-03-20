@@ -1,5 +1,8 @@
 local M = {}
 
+local tools             = require "lib/tools"
+local time              = require "lib/time"
+
 local showhide_speed = 0.05
 local visibility = 0
 local target = 0
@@ -34,26 +37,100 @@ util.data_mapper{
 	end;
 }
 
-local bg = resource.create_colored_texture(1,1,0,0.75)
+local function draw_images(usable_area)
+	local bg = resource.create_colored_texture(1,0,1,0.75)
+	bg:draw(
+		usable_area.x,
+		usable_area.y,
+		usable_area.x + usable_area.w,
+		usable_area.y + usable_area.h
+	)
+end
+
+local function draw_clock(usable_area)
+	local font = CONFIG.clock_font
+	local color = CONFIG.clock_color.rgba_table
+
+	local txt = time.walltime_text()
+
+	local sz = CONFIG.clock_size
+	local w = font:width(txt, sz)
+
+	local place = {
+		x = (usable_area.w - w) / 2 + usable_area.x;
+		y = (usable_area.h - sz) / 2 + usable_area.y;
+	}
+
+	font:write(place.x, place.y, txt, sz, unpack(color))
+end
+
 local function draw(usable_area)
+	local bgimg = CONFIG.sidebar_background_image
+	local bgcolor = CONFIG.sidebar_background
+
 	gl.pushMatrix()
 
 	gl.translate(
-		usable_area.w,
+		usable_area.w + usable_area.x,
 		0
 	)
 
 	gl.rotate(hide_angle * (1-visibility), 0, 1, 0)
 
-	bg:draw(
-		0 - CONFIG.sidebar_width,
-		usable_area.y,
-		0,
-		usable_area.y + usable_area.h
+	gl.translate(
+		- usable_area.w,
+		usable_area.y
 	)
+
+	if bgcolor then
+		local bg = resource.create_colored_texture(unpack(bgcolor.rgba_table))
+		bg:draw(
+			0,
+			0,
+			usable_area.w,
+			usable_area.h
+		)
+	end
+
+	if bgimg then
+		bgimg.draw(
+			place.x - padh - 2.5,
+			place.y - padv - 2.5,
+			place.x + w + padh + 2.5,
+			place.y + sz + padv,
+			1
+		)
+	end
+
+	local usable_area_images = {
+		x=0;
+		y=0;
+		w=usable_area.w;
+		h=usable_area.h;
+	}
+	local usable_area_clock = nil
+
+	if CONFIG.clock_placement == 'sidebar' then
+		local clock_area_height = 200
+
+		usable_area_images.h = usable_area_images.h - clock_area_height
+
+		usable_area_clock = {
+			x=0;
+			y=usable_area.h - clock_area_height;
+			w=usable_area.w;
+			h=clock_area_height;
+		}
+
+		draw_clock(usable_area_clock)
+	end
+
+	draw_images(usable_area_images)
 
 	gl.popMatrix()
 end
+
+
 
 function M.render(other_osd_modules)
 	if not M.is_enabled() then return end
@@ -66,14 +143,14 @@ function M.render(other_osd_modules)
 	if visibility <= 0.01 then
 		visibility = 0
 		return
-	elseif visibility > 0.99 then
+	elseif visibility > 0.999 then
 		visibility = 1
 	end
 
-	usable_area = {
-		x = 0;
+	local usable_area = {
+		x = WIDTH - CONFIG.sidebar_width;
 		y = 0;
-		w = WIDTH;
+		w = CONFIG.sidebar_width;
 		h = HEIGHT;
 	}
 
