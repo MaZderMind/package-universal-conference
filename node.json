@@ -136,6 +136,16 @@
             "default":  [1,1,1,0.6]
         },
 
+        {
+            "title":    "Sidebar",
+            "type":     "section"
+        }, {
+            "title":    "Sidebar Width",
+            "name":     "sidebar_width",
+            "type":     "integer",
+            "hint":     "How wide should the Sidebar be",
+            "default":  "200"
+        },
 
         {
             "title":    "Design – Background",

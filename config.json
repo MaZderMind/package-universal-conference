@@ -35,6 +35,8 @@
   "clock_color": {"r": 1, "g": 1, "b": 1, "a": 0.6},
   "clock_size": 80,
 
+  "sidebar_width": 400,
+
   "nyi_texts": [
     {"text": "Social-Event will start at 21:00"},
     {"text": "Don't leave your Luggage unattended"}
