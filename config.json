@@ -41,13 +41,13 @@
   "sidebar_images": [
     {
       "file": {"type": "image", "filename": "assets/sidebar/foss4g.png", "asset_name": "assets/sidebar/foss4g.png"},
-      "duration": 10
+      "duration": 5
     }, {
       "file": {"type": "image", "filename": "assets/sidebar/google.png", "asset_name": "assets/sidebar/google.png"},
       "duration": 5
     }, {
       "file": {"type": "image", "filename": "assets/sidebar/geops.png", "asset_name": "assets/sidebar/geops.png"},
-      "duration": 4
+      "duration": 5
     }
   ],
 

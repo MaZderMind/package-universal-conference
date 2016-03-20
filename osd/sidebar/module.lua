@@ -4,11 +4,11 @@ local tools             = require "lib/tools"
 local time              = require "lib/time"
 local config            = require "lib/config"
 
-local showhide_speed = 0.05
+local showhide_speed = 0.03
 local visibility = 0
 local target = 0
 local restore = sys.now() + 1
-local hide_angle = 110 -- degrees
+local hide_angle = 120 -- degrees
 local frame = 0
 
 function M.is_enabled()
@@ -39,9 +39,9 @@ util.data_mapper{
 }
 
 local image, next_image, last_image
-local image_transition_duration = 2*60 --seconds
+local image_transition_duration = 2 --seconds
 local image_in_transition = false
-local image_transition_counter = 0
+local transition_until = 0
 local valid_until = 0
 
 local function images_init()
@@ -50,7 +50,7 @@ local function images_init()
 	print("sidebar_images changed, loading all images")
 	for idx, image in pairs(CONFIG.sidebar_images) do
 		if image.file.type ~= "video" then
-			image.file.load()
+			image.file.load(true)
 		end
 	end
 end
@@ -71,7 +71,7 @@ local function draw_images(usable_area)
 
 	if next_image == nil and now > valid_until then
 		next_image = generator.next()
-		valid_until = sys.now() + next_image.duration
+		valid_until = now + next_image.duration + image_transition_duration
 
 		print("image display time is over, selecting next image", next_image.file.asset_name) 
 		if next_image.type == "video" then
@@ -90,7 +90,7 @@ local function draw_images(usable_area)
 			print("next image is loaded, starting transition", next_image.file.asset_name)
 
 			image_in_transition = true
-			image_transition_counter = image_transition_duration
+			transition_until = now + image_transition_duration
 		end
 	end
 
@@ -104,47 +104,50 @@ local function draw_images(usable_area)
 		width = ox2 - ox1
 	end
 
+	if visibility < 1 then
+		transition_phase = now - 1
+	end
+
+
+	local transition_phase = 0
+	local phase_offset = 0.1 -- offset in the chang-point (between 0..1) due to perspectivr
 	if image_in_transition then
 		gl.translate(
-			width/2,
-			0
-		)
-		gl.rotate(image_transition_counter / image_transition_duration * 90 - 90, 0, 1, 0)
-		gl.translate(
-			-width/2,
+			width/2 + usable_area.x,
 			0
 		)
 
-		if image_transition_counter > 0 then
-			print("running out-transition", image_transition_counter)
-			image_transition_counter = image_transition_counter - 1
-		elseif image_transition_counter < 0 then
-			print("running in-transition", image_transition_counter)
-			image_transition_counter = image_transition_counter + 1
+
+		transition_phase = 1 - (transition_until - now) / image_transition_duration
+		local rot = transition_phase * 180
+		if next_image == nil then
+			rot = rot + 180
 		end
+		gl.rotate(rot, 0, 1, 0)
+		gl.translate(
+			-width/2 - usable_area.x,
+			0
+		)
 
-		if image_transition_counter == 0 then
-			if next_image ~= nil then
-				print("out-transition finished, swapping images")
-				image = next_image
-				next_image = nil
-
-				image_transition_counter = -image_transition_duration
-			else
-				print("in-transition finished, ending transition cycle. image valid for", image.duration)
-				image_in_transition = false
-			end
+		if transition_phase > 0.5+phase_offset and next_image ~= nil then
+			print("out-transition finished, swapping images")
+			image = next_image
+			next_image = nil
+		elseif transition_phase > 1 then
+			print("in-transition finished, ending transition cycle. image valid for", image.duration)
+			image_in_transition = false
 		end
 	end
 
 	if image ~= nil then
+		local alpha = math.sqrt(math.abs(math.cos((transition_phase - phase_offset) * math.pi)))
 		util.draw_correct(
 			image.file.get_surface(), 
 			usable_area.x,
 			usable_area.y,
 			usable_area.x + usable_area.w,
 			usable_area.y + usable_area.h,
-			1
+			alpha
 		)
 	end
 
@@ -198,19 +201,19 @@ local function draw(usable_area)
 
 	if bgimg then
 		bgimg.draw(
-			place.x - padh - 2.5,
-			place.y - padv - 2.5,
-			place.x + w + padh + 2.5,
-			place.y + sz + padv,
-			1
+			0,
+			0,
+			usable_area.w,
+			usable_area.h
 		)
 	end
 
+	local padding = 25
 	local usable_area_images = {
-		x=0;
-		y=0;
-		w=usable_area.w;
-		h=usable_area.h;
+		x=padding;
+		y=padding;
+		w=usable_area.w - padding - padding;
+		h=usable_area.h - padding - padding;
 	}
 	local usable_area_clock = nil
 
@@ -249,7 +252,7 @@ function M.render(other_osd_modules)
 	if visibility <= 0.01 then
 		visibility = 0
 		return
-	elseif visibility > 0.999 then
+	elseif visibility > 0.99 then
 		visibility = 1
 	end
 

@@ -39,14 +39,14 @@ local resource_types = {
             type = value.type,
         }
 
-        function image.ensure_loaded()
+        function image.ensure_loaded(mipmap)
             if not surface then
-                surface = resource.load_image(value.asset_name)
+                surface = resource.load_image(value.asset_name, mipmap)
             end
             return surface
         end
-        function image.load()
-            image.ensure_loaded()
+        function image.load(mipmap)
+            image.ensure_loaded(mipmap)
             local state = surface:state()
             return state ~= "loading"
         end

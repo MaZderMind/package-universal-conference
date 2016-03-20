@@ -176,7 +176,9 @@
                     "default":  "5"
                 }
             ]
-        }, {
+        },
+
+        {
             "title":    "Design – Background",
             "type":     "section"
         }, {
