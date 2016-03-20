@@ -157,9 +157,26 @@
             "type":     "resource",
             "hint":     "An Image placed behind the Clock",
             "valid":    ["image", "child"]
-        },
-
-        {
+        }, {
+            "name":     "sidebar_images",
+            "type":     "list",
+            "title":    "Sidebar-Images",
+            "hint":     "Images shown in the Sidebar",
+            "itemname": "Sidebar-Image",
+            "items": [
+                {
+                    "name":     "file",
+                    "title":    "Image or Video to diplay",
+                    "type":     "resource",
+                    "valid":    ["image", "video", "child"]
+                }, {
+                    "name":     "duration",
+                    "type":     "integer",
+                    "title":    "Display-Duration in Seconds",
+                    "default":  "5"
+                }
+            ]
+        }, {
             "title":    "Design – Background",
             "type":     "section"
         }, {
