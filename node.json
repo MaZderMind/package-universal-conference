@@ -118,7 +118,7 @@
             "name":     "clock_background_image",
             "type":     "resource",
             "hint":     "An Image placed behind the Clock",
-            "valid":    ["image", "video", "child"]
+            "valid":    ["image", "child"]
         }, {
             "title":    "Clock",
             "name":     "clock_size",
@@ -145,6 +145,37 @@
             "type":     "integer",
             "hint":     "How wide should the Sidebar be",
             "default":  "200"
+        }, {
+            "title":    "Sidebar Background-Color",
+            "name":     "sidebar_background",
+            "type":     "color",
+            "hint":     "Background behind the scrolling Sidebar",
+            "default":  [0,0,0,0.4]
+        }, {
+            "title":    "Sidebar Background-Image",
+            "name":     "sidebar_background_image",
+            "type":     "resource",
+            "hint":     "An Image placed behind the Clock",
+            "valid":    ["image", "child"]
+        }, {
+            "name":     "sidebar_images",
+            "type":     "list",
+            "title":    "Sidebar-Images",
+            "hint":     "Images shown in the Sidebar",
+            "itemname": "Sidebar-Image",
+            "items": [
+                {
+                    "name":     "file",
+                    "title":    "Image or Video to diplay",
+                    "type":     "resource",
+                    "valid":    ["image", "video", "child"]
+                }, {
+                    "name":     "duration",
+                    "type":     "integer",
+                    "title":    "Display-Duration in Seconds",
+                    "default":  "5"
+                }
+            ]
         },
 
         {

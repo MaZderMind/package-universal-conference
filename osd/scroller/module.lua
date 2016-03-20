@@ -58,9 +58,9 @@ util.data_mapper{
 local function draw(usable_area)
 	if type(text) == 'nil' then return nil end
 
-	local bgcolor = CONFIG.scroller_background.rgba_table
 	local size = CONFIG.scroller_size
 
+	local bgcolor = CONFIG.scroller_background.rgba_table
 	local bg = resource.create_colored_texture(unpack(bgcolor))
 
 	bg:draw(
@@ -92,7 +92,7 @@ function M.render(other_osd_modules)
 		return
 	end
 
-	usable_area = {
+	local usable_area = {
 		x = 0;
 		y = 0;
 		w = WIDTH;

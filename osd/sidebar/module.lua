@@ -1,11 +1,15 @@
 local M = {}
 
-local showhide_speed = 0.05
+local tools             = require "lib/tools"
+local time              = require "lib/time"
+local config            = require "lib/config"
+
+local showhide_speed = 0.03
 local visibility = 0
 local target = 0
 local restore = sys.now() + 1
-
-local hide_angle = 120
+local hide_angle = 120 -- degrees
+local frame = 0
 
 function M.is_enabled()
 	return CONFIG.sidebar_width ~= nil and CONFIG.sidebar_width > 0
@@ -34,26 +38,208 @@ util.data_mapper{
 	end;
 }
 
-local bg = resource.create_colored_texture(1,1,0,0.75)
+local image, next_image, last_image
+local image_transition_duration = 2 --seconds
+local image_in_transition = false
+local transition_until = 0
+local valid_until = 0
+
+local function images_init()
+	if not CONFIG.sidebar_images then return end
+
+	print("sidebar_images changed, loading all images")
+	for idx, image in pairs(CONFIG.sidebar_images) do
+		if image.file.type ~= "video" then
+			image.file.load(true)
+		end
+	end
+end
+config.on_option_changed(
+	{'sidebar_images'},
+	images_init
+)
+images_init()
+
+
+local function images_feeder()
+	return CONFIG.sidebar_images
+end
+local generator = util.generator(images_feeder)
+
+local function draw_images(usable_area)
+	local now = sys.now()
+
+	if next_image == nil and now > valid_until then
+		next_image = generator.next()
+		valid_until = now + next_image.duration + image_transition_duration
+
+		print("image display time is over, selecting next image", next_image.file.asset_name) 
+		if next_image.type == "video" then
+			print("re-loading video", next_image.file.asset_name)
+			next_image.file.unload()
+			next_image.file.load()
+		end
+	end
+
+	if not image_in_transition and next_image and next_image.file:get_surface():state() == 'loaded' then
+		if image == nil then
+			print("next image is loaded and no current image -> jumping transition", next_image.file.asset_name)
+			image = next_image
+			next_image = nil
+		else
+			print("next image is loaded, starting transition", next_image.file.asset_name)
+
+			image_in_transition = true
+			transition_until = now + image_transition_duration
+		end
+	end
+
+	gl.pushMatrix()
+
+	local width = 0
+	if image ~= nil then
+		local ox1, oy1, ox2, oy2 = util.scale_into(
+			usable_area.w, usable_area.h, image.file.get_surface():size())
+
+		width = ox2 - ox1
+	end
+
+	if visibility < 1 then
+		transition_phase = now - 1
+	end
+
+
+	local transition_phase = 0
+	local phase_offset = 0.1 -- offset in the chang-point (between 0..1) due to perspectivr
+	if image_in_transition then
+		gl.translate(
+			width/2 + usable_area.x,
+			0
+		)
+
+
+		transition_phase = 1 - (transition_until - now) / image_transition_duration
+		local rot = transition_phase * 180
+		if next_image == nil then
+			rot = rot + 180
+		end
+		gl.rotate(rot, 0, 1, 0)
+		gl.translate(
+			-width/2 - usable_area.x,
+			0
+		)
+
+		if transition_phase > 0.5+phase_offset and next_image ~= nil then
+			print("out-transition finished, swapping images")
+			image = next_image
+			next_image = nil
+		elseif transition_phase > 1 then
+			print("in-transition finished, ending transition cycle. image valid for", image.duration)
+			image_in_transition = false
+		end
+	end
+
+	if image ~= nil then
+		local alpha = math.sqrt(math.abs(math.cos((transition_phase - phase_offset) * math.pi)))
+		util.draw_correct(
+			image.file.get_surface(), 
+			usable_area.x,
+			usable_area.y,
+			usable_area.x + usable_area.w,
+			usable_area.y + usable_area.h,
+			alpha
+		)
+	end
+
+	gl.popMatrix()
+end
+
+local function draw_clock(usable_area)
+	local font = CONFIG.clock_font
+	local color = CONFIG.clock_color.rgba_table
+
+	local txt = time.walltime_text()
+
+	local sz = CONFIG.clock_size
+	local w = font:width(txt, sz)
+
+	local place = {
+		x = (usable_area.w - w) / 2 + usable_area.x;
+		y = (usable_area.h - sz) / 2 + usable_area.y;
+	}
+
+	font:write(place.x, place.y, txt, sz, unpack(color))
+end
+
 local function draw(usable_area)
+	local bgimg = CONFIG.sidebar_background_image
+	local bgcolor = CONFIG.sidebar_background
+
 	gl.pushMatrix()
 
 	gl.translate(
-		usable_area.w,
+		usable_area.w + usable_area.x,
 		0
 	)
 
 	gl.rotate(hide_angle * (1-visibility), 0, 1, 0)
 
-	bg:draw(
-		0 - CONFIG.sidebar_width,
-		usable_area.y,
-		0,
-		usable_area.y + usable_area.h
+	gl.translate(
+		0 - usable_area.w,
+		usable_area.y
 	)
 
+	if bgcolor then
+		local bg = resource.create_colored_texture(unpack(bgcolor.rgba_table))
+		bg:draw(
+			0,
+			0,
+			usable_area.w,
+			usable_area.h
+		)
+	end
+
+	if bgimg then
+		bgimg.draw(
+			0,
+			0,
+			usable_area.w,
+			usable_area.h
+		)
+	end
+
+	local padding = 25
+	local usable_area_images = {
+		x=padding;
+		y=padding;
+		w=usable_area.w - padding - padding;
+		h=usable_area.h - padding - padding;
+	}
+	local usable_area_clock = nil
+
+	if CONFIG.clock_placement == 'sidebar' then
+		local clock_area_height = 200
+
+		usable_area_images.h = usable_area_images.h - clock_area_height
+
+		usable_area_clock = {
+			x=0;
+			y=usable_area.h - clock_area_height;
+			w=usable_area.w;
+			h=clock_area_height;
+		}
+
+		draw_clock(usable_area_clock)
+	end
+
+	draw_images(usable_area_images)
+
 	gl.popMatrix()
+
+	frame = frame+1
 end
+
+
 
 function M.render(other_osd_modules)
 	if not M.is_enabled() then return end
@@ -70,10 +256,10 @@ function M.render(other_osd_modules)
 		visibility = 1
 	end
 
-	usable_area = {
-		x = 0;
+	local usable_area = {
+		x = WIDTH - CONFIG.sidebar_width;
 		y = 0;
-		w = WIDTH;
+		w = CONFIG.sidebar_width;
 		h = HEIGHT;
 	}
 

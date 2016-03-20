@@ -1,4 +1,5 @@
 local tools = require("lib/tools")
+local config = require("lib/config")
 local M = {}
 
 local shaders = {
@@ -39,11 +40,25 @@ if background_rotation_interval < 1 then
     background_rotation_interval = 1
 end
 
-local graphic
-local next_graphic
+local graphic, next_graphic
 local valid_until = 0
 local from, to
 local frame = 0
+
+local function init()
+    print("background_graphics changed, loading all images")
+    for idx, graphic in pairs(CONFIG.background_graphics) do
+        if graphic.type ~= "video" then
+            graphic.file.load()
+        end
+    end
+end
+config.on_option_changed(
+    {'background_graphics'},
+    init
+)
+init()
+
 
 local function draw_still()
     local surface = graphic.file:get_surface()
@@ -110,15 +125,16 @@ function M.render()
 
     if next_graphic == nil and now > valid_until then
         next_graphic = generator.next()
-        next_graphic.file.load()
-        print("scheduling next background-graphic", next_graphic.file.asset_name)
+        if next_graphic.type == "video" then
+            print("re-loading video", next_graphic.file.asset_name)
+            next_graphic.file.unload()
+            next_graphic.file.load()
+        end
     end
 
     if next_graphic and next_graphic.file:get_surface():state() == 'loaded' then
         print("background-graphic is loaded, swapping graphics", next_graphic.file.asset_name)
-        if graphic ~= nil and graphic.type == "video" then
-            graphic.file.unload()
-        end
+
         graphic = next_graphic
         next_graphic = nil
         valid_until = now + background_rotation_interval

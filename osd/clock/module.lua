@@ -1,5 +1,7 @@
 local M = {}
 
+local time              = require "lib/time"
+
 local visibility = 0
 local target = 0
 local restore = sys.now() + 1
@@ -20,7 +22,7 @@ local function draw(usable_area)
 	local bgimg = CONFIG.clock_background_image
 	local bgcolor = CONFIG.clock_background
 
-	local txt = "00:28"
+	local txt = time.walltime_text()
 
 	local sz = CONFIG.clock_size
 	local w = font:width(txt, sz)
@@ -93,7 +95,7 @@ function M.render(other_osd_modules)
 		return
 	end
 
-	usable_area = {
+	local usable_area = {
 		x = 0;
 		y = 0;
 		w = WIDTH;

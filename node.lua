@@ -35,7 +35,7 @@ function node.render()
 
 	osd_runner:run('background')
 
-	usable_area = {
+	local usable_area = {
 		x = 0;
 		y = 0;
 		w = WIDTH;
