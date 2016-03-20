@@ -118,7 +118,7 @@
             "name":     "clock_background_image",
             "type":     "resource",
             "hint":     "An Image placed behind the Clock",
-            "valid":    ["image", "video", "child"]
+            "valid":    ["image", "child"]
         }, {
             "title":    "Clock",
             "name":     "clock_size",
