@@ -14,7 +14,7 @@ function M.hide(duration)
 	restore = sys.now() + duration
 end
 
-function draw(usable_area)
+local function draw(usable_area)
 	local font = CONFIG.clock_font
 	local color = CONFIG.clock_color.rgba_table
 	local bgimg = CONFIG.clock_background_image
