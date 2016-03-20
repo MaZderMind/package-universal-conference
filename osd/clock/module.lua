@@ -5,6 +5,10 @@ local target = 0
 local restore = sys.now() + 1
 local showhide_speed = 0.05
 
+function M.is_enabled()
+	return CONFIG.clock_placement ~= nil and CONFIG.clock_placement ~= "none"
+end
+
 function M.hide(duration)
 	target = 0
 	restore = sys.now() + duration
@@ -78,6 +82,8 @@ function draw(usable_area)
 end
 
 function M.render(other_osd_modules)
+	if not M.is_enabled() then return end
+
 	if sys.now() > restore then
 		target = 1
 	end
