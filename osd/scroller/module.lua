@@ -4,6 +4,10 @@ local config = require("lib/config")
 local M = {}
 local showhide_speed = 0.05
 
+local visibility = 0
+local target = 0
+local restore = sys.now() + 1
+
 local function feeder()
 	return CONFIG.scroller_text
 end
@@ -14,7 +18,7 @@ end
 
 function M.get_height()
 	if M.is_enabled() then
-		return CONFIG.scroller_size + CONFIG.scroller_padding + CONFIG.scroller_padding
+		return (CONFIG.scroller_size + CONFIG.scroller_padding + CONFIG.scroller_padding) * visibility
 	else
 		return 0
 	end
@@ -67,13 +71,16 @@ local function draw(usable_area)
 end
 
 function M.render(other_osd_modules)
-	if sys.now() > restore then
+	if restore > 0 and sys.now() > restore then
 		target = 1
 	end
 
 	visibility = visibility * (1-showhide_speed) + target * (showhide_speed)
 	if visibility <= 0.01 then
+		visibility = 0
 		return
+	elseif visibility > 0.99 then
+		visibility = 1
 	end
 
 	if type(text) == 'nil' then
