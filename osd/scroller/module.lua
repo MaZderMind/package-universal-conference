@@ -2,8 +2,8 @@ local time = require("lib/time")
 local config = require("lib/config")
 
 local M = {}
-local showhide_speed = 0.05
 
+local showhide_speed = 0.05
 local visibility = 0
 local target = 0
 local restore = sys.now() + 1
@@ -47,12 +47,10 @@ end
 
 util.data_mapper{
 	["scroller/hide"] = function()
-		print("udp-cmd: scroller/hide")
 		target = 0
 		restore = 0
 	end;
 	["scroller/show"] = function()
-		print("udp-cmd: scroller/show")
 		target = 1
 	end;
 }
