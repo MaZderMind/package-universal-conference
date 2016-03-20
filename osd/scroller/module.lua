@@ -38,17 +38,24 @@ config.on_option_changed(
 	{'scroller_font', 'scroller_size', 'scroller_speed', 'scroller_color'},
 	init
 )
-
 init()
-
-local visibility = 0
-local target = 0
-local restore = sys.now() + 1
 
 function M.hide(duration)
 	target = 0
 	restore = sys.now() + duration
 end
+
+util.data_mapper{
+	["scroller/hide"] = function()
+		print("udp-cmd: scroller/hide")
+		target = 0
+		restore = 0
+	end;
+	["scroller/show"] = function()
+		print("udp-cmd: scroller/show")
+		target = 1
+	end;
+}
 
 local function draw(usable_area)
 	if type(text) == 'nil' then return nil end
