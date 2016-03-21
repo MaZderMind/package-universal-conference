@@ -1,11 +1,11 @@
-local utils = require "tool_utils"
+local tools = require "lib/tools"
 
 local vollbg = resource.create_colored_texture(0,0,0,1)
 
 local M = {}
 
 local function rotating_entry_exit(S, E, obj)
-    local rotate = utils.make_smooth{
+    local rotate = tools.make_smooth{
         {t = S ,  val = -60},
         {t = S+1 ,val =   0, ease='step'},
         {t = E-1, val =   0},
@@ -19,14 +19,14 @@ local function rotating_entry_exit(S, E, obj)
 end
 
 local function move_in_move_out(S, E, x, y, obj)
-    local x = utils.make_smooth{
+    local x = tools.make_smooth{
         {t = S,   val = x+2200},
         {t = S+1, val = x, ease='step'},
         {t = E-1, val = x},
         {t = E,   val = -2000},
     }
 
-    local y = utils.make_smooth{
+    local y = tools.make_smooth{
         {t = S,   val = y*3},
         {t = S+1, val = y, ease='step'},
         {t = E-1, val = y},
@@ -99,7 +99,7 @@ function M.moving_font_list(S, E, x, y, texts, size, r, g, b, a)
 end
 
 function M.tweet_profile(S, E, x, y, img, size)
-    local x = utils.make_smooth{
+    local x = tools.make_smooth{
         {t = S+0, val = 2200},
         {t = S+1, val = 500},
         {t = S+2, val = x, ease='step'},
@@ -107,7 +107,7 @@ function M.tweet_profile(S, E, x, y, img, size)
         {t = E,   val = -2000},
     }
 
-    local y = utils.make_smooth{
+    local y = tools.make_smooth{
         {t = S+0, val = HEIGHT/2},
         {t = S+1, val = 200},
         {t = S+2, val = y, ease='step'},
@@ -115,7 +115,7 @@ function M.tweet_profile(S, E, x, y, img, size)
         {t = E,   val = 0},
     }
 
-    local scale = utils.make_smooth{
+    local scale = tools.make_smooth{
         {t = S ,  val = 0},
         {t = S+1, val = 8},
         {t = S+2, val = 1, ease='step'},
