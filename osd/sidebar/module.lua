@@ -146,7 +146,7 @@ local function draw(usable_area)
 		)
 	end
 
-	local padding = 50
+	local padding = 25
 	local usable_area_images = {
 		x=padding;
 		y=padding;

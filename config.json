@@ -38,15 +38,15 @@
   "sidebar_width": 400,
   "sidebar_background": {"r": 0.0, "g": 0.0, "b": 0.0, "a": 0.4},
   "sidebar_background_image": {"type": "none"},
-  "sidebar_primary_images_height": 100,
+  "sidebar_primary_images_height": 150,
   "sidebar_primary_images": [
     {
       "file": {"type": "image", "filename": "assets/sidebar/foss4g.png", "asset_name": "assets/sidebar/foss4g.png"},
       "duration": 2
     }
   ],
-  "sidebar_images_padding": 100,
-  "sidebar_secondary_images_height": 100,
+  "sidebar_images_padding": 150,
+  "sidebar_secondary_images_height": 150,
   "sidebar_secondary_images": [
     {
       "file": {"type": "image", "filename": "assets/sidebar/google.png", "asset_name": "assets/sidebar/google.png"},
