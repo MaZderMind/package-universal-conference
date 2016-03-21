@@ -40,7 +40,7 @@ function Images:draw(usable_area, visibility)
 			self.image = self.next_image
 			self.next_image = nil
 		elseif self.image ~= nil and self.next_image ~= nil and self.image.file.asset_name == self.next_image.file.asset_name then
-			print("next image == current image, not tansitioning", next_graphic.file.asset_name)
+			print("next image == current image, not tansitioning", self.next_image.file.asset_name)
 			self.next_image = nil
 		else
 			print("next image is loaded, starting transition", self.next_image.file.asset_name)
