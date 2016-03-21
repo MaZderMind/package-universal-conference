@@ -146,21 +146,55 @@
             "hint":     "How wide should the Sidebar be",
             "default":  "200"
         }, {
-            "title":    "Sidebar Background-Color",
+            "title":    "Background-Color",
             "name":     "sidebar_background",
             "type":     "color",
             "hint":     "Background behind the scrolling Sidebar",
             "default":  [0,0,0,0.4]
         }, {
-            "title":    "Sidebar Background-Image",
+            "title":    "Background-Image",
             "name":     "sidebar_background_image",
             "type":     "resource",
             "hint":     "An Image placed behind the Clock",
             "valid":    ["image", "child"]
         }, {
-            "name":     "sidebar_images",
+            "title":    "Height of Primary-Images",
+            "name":     "sidebar_primary_images_height",
+            "type":     "integer",
+            "default":  "100"
+        }, {
+            "title":    "Primary Images",
+            "name":     "sidebar_primary_images",
             "type":     "list",
-            "title":    "Sidebar-Images",
+            "hint":     "Images shown in the Sidebar",
+            "itemname": "Sidebar-Image",
+            "items": [
+                {
+                    "name":     "file",
+                    "title":    "Image or Video to diplay",
+                    "type":     "resource",
+                    "valid":    ["image", "video", "child"]
+                }, {
+                    "name":     "duration",
+                    "type":     "integer",
+                    "title":    "Display-Duration in Seconds",
+                    "default":  "5"
+                }
+            ]
+        }, {
+            "title":    "Padding between Primary and Secondary-Images",
+            "name":     "sidebar_images_padding",
+            "type":     "integer",
+            "default":  "50"
+        }, {
+            "title":    "Height of Secondary-Images",
+            "name":     "sidebar_secondary_images_height",
+            "type":     "integer",
+            "default":  "100"
+        }, {
+            "title":    "Secondary Images",
+            "name":     "sidebar_secondary_images",
+            "type":     "list",
             "hint":     "Images shown in the Sidebar",
             "itemname": "Sidebar-Image",
             "items": [
