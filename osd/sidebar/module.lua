@@ -3,6 +3,7 @@ local M = {}
 local tools             = require "lib/tools"
 local time              = require "lib/time"
 local config            = require "lib/config"
+local Images            = require "osd/sidebar/images"
 
 local showhide_speed = 0.03
 local visibility = 0
@@ -38,120 +39,57 @@ util.data_mapper{
 	end;
 }
 
-local image, next_image, last_image
-local image_transition_duration = 2 --seconds
-local image_in_transition = false
-local transition_until = 0
-local valid_until = 0
-
 local function images_init()
-	if not CONFIG.sidebar_images then return end
+	print("sidebar images changed, loading all images")
 
-	print("sidebar_images changed, loading all images")
-	for idx, image in pairs(CONFIG.sidebar_images) do
-		if image.file.type ~= "video" then
-			image.file.load(true)
+	if CONFIG.sidebar_primary_images then
+		for idx, image in pairs(CONFIG.sidebar_primary_images) do
+			if image.file.type ~= "video" then
+				image.file.mipmap = true
+				image.file.load_and_watch()
+			end
+		end
+	end
+	if CONFIG.sidebar_secondary_images then
+		for idx, image in pairs(CONFIG.sidebar_secondary_images) do
+			if image.file.type ~= "video" then
+				image.file.mipmap = true
+				image.file.load_and_watch()
+			end
 		end
 	end
 end
 config.on_option_changed(
-	{'sidebar_images'},
+	{'sidebar_primary_images', 'sidebar_secondary_images'},
 	images_init
 )
 images_init()
 
 
-local function images_feeder()
-	return CONFIG.sidebar_images
+local function primary_images_feeder()
+	return CONFIG.sidebar_primary_images
 end
-local generator = util.generator(images_feeder)
 
+local function secondary_images_feeder()
+	return CONFIG.sidebar_secondary_images
+end
+
+local primary_images, secondary_images
 local function draw_images(usable_area)
-	local now = sys.now()
-
-	if next_image == nil and now > valid_until then
-		next_image = generator.next()
-		valid_until = now + next_image.duration + image_transition_duration
-
-		print("image display time is over, selecting next image", next_image.file.asset_name) 
-		if next_image.type == "video" then
-			print("re-loading video", next_image.file.asset_name)
-			next_image.file.unload()
-			next_image.file.load()
-		end
+	if primary_images == nil then
+		primary_images = Images.new(primary_images_feeder)
 	end
 
-	if not image_in_transition and next_image and next_image.file:get_surface():state() == 'loaded' then
-		if image == nil then
-			print("next image is loaded and no current image -> jumping transition", next_image.file.asset_name)
-			image = next_image
-			next_image = nil
-		else
-			print("next image is loaded, starting transition", next_image.file.asset_name)
-
-			image_in_transition = true
-			transition_until = now + image_transition_duration
-		end
+	if secondary_images == nil then
+		secondary_images = Images.new(secondary_images_feeder)
 	end
 
-	gl.pushMatrix()
+	usable_area.h = CONFIG.sidebar_primary_images_height
+	primary_images:draw(usable_area, visibility)
 
-	local width = 0
-	if image ~= nil then
-		local ox1, oy1, ox2, oy2 = util.scale_into(
-			usable_area.w, usable_area.h, image.file.get_surface():size())
-
-		width = ox2 - ox1
-	end
-
-	if visibility < 1 then
-		transition_phase = now - 1
-	end
-
-
-	local transition_phase = 0
-	local phase_offset = 0.1 -- offset in the chang-point (between 0..1) due to perspectivr
-	if image_in_transition then
-		gl.translate(
-			width/2 + usable_area.x,
-			0
-		)
-
-
-		transition_phase = 1 - (transition_until - now) / image_transition_duration
-		local rot = transition_phase * 180
-		if next_image == nil then
-			rot = rot + 180
-		end
-		gl.rotate(rot, 0, 1, 0)
-		gl.translate(
-			-width/2 - usable_area.x,
-			0
-		)
-
-		if transition_phase > 0.5+phase_offset and next_image ~= nil then
-			print("out-transition finished, swapping images")
-			image = next_image
-			next_image = nil
-		elseif transition_phase > 1 then
-			print("in-transition finished, ending transition cycle. image valid for", image.duration)
-			image_in_transition = false
-		end
-	end
-
-	if image ~= nil then
-		local alpha = math.sqrt(math.abs(math.cos((transition_phase - phase_offset) * math.pi)))
-		util.draw_correct(
-			image.file.get_surface(), 
-			usable_area.x,
-			usable_area.y,
-			usable_area.x + usable_area.w,
-			usable_area.y + usable_area.h,
-			alpha
-		)
-	end
-
-	gl.popMatrix()
+	usable_area.y = usable_area.h + CONFIG.sidebar_images_padding
+	usable_area.h = CONFIG.sidebar_secondary_images_height
+	secondary_images:draw(usable_area, visibility)
 end
 
 local function draw_clock(usable_area)

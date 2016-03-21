@@ -37,18 +37,31 @@ local resource_types = {
             asset_name = value.asset_name,
             filename = value.filename,
             type = value.type,
+            mipmap = false,
         }
 
-        function image.ensure_loaded(mipmap)
+        function image.ensure_loaded()
             if not surface then
-                surface = resource.load_image(value.asset_name, mipmap)
+                print("loading", value.asset_name, "mipmap=", image.mipmap)
+                surface = resource.load_image(value.asset_name, image.mipmap)
             end
             return surface
         end
-        function image.load(mipmap)
-            image.ensure_loaded(mipmap)
+        function image.load()
+            image.ensure_loaded()
             local state = surface:state()
             return state ~= "loading"
+        end
+        function image.load_and_watch()
+            print("registering change listener", value.asset_name)
+            node.event("content_update", function(filename)
+                if filename ~= value.asset_name then
+                    return
+                end
+                print("file changed!", value.asset_name)
+                image.unload()
+                image.ensure_loaded()
+            end)
         end
         function image.get_surface()
             return image.ensure_loaded()
