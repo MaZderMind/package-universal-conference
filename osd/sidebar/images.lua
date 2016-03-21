@@ -22,20 +22,6 @@ end
 function Images:draw(usable_area, visibility)
 	local now = sys.now()
 
-	if self.image ~= nil and self.image.duration == 0 then
-		-- image configured for endless display
-
-		util.draw_correct(
-			self.image.file.get_surface(), 
-			usable_area.x,
-			usable_area.y,
-			usable_area.x + usable_area.w,
-			usable_area.y + usable_area.h
-		)
-
-		return
-	end
-
 	if self.next_image == nil and now > self.valid_until then
 		self.next_image = self.generator.next()
 		self.valid_until = now + self.next_image.duration + self.image_transition_duration
@@ -52,6 +38,9 @@ function Images:draw(usable_area, visibility)
 		if self.image == nil then
 			print("next image is loaded and no current image -> jumping transition", self.next_image.file.asset_name)
 			self.image = self.next_image
+			self.next_image = nil
+		elseif self.image ~= nil and self.next_image ~= nil and self.image.file.asset_name == self.next_image.file.asset_name then
+			print("next image == current image, not tansitioning", next_graphic.file.asset_name)
 			self.next_image = nil
 		else
 			print("next image is loaded, starting transition", self.next_image.file.asset_name)

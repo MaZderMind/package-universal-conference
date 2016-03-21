@@ -42,7 +42,7 @@
   "sidebar_primary_images": [
     {
       "file": {"type": "image", "filename": "assets/sidebar/foss4g.png", "asset_name": "assets/sidebar/foss4g.png"},
-      "duration": 0
+      "duration": 2
     }
   ],
   "sidebar_images_padding": 100,
