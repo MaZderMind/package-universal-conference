@@ -49,7 +49,7 @@ local function init()
     print("background_graphics changed, loading all images")
     for idx, graphic in pairs(CONFIG.background_graphics) do
         if graphic.type ~= "video" then
-            graphic.file.load()
+            graphic.file.load_and_watch()
         end
     end
 end

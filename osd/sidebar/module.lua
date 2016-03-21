@@ -45,14 +45,16 @@ local function images_init()
 	if CONFIG.sidebar_primary_images then
 		for idx, image in pairs(CONFIG.sidebar_primary_images) do
 			if image.file.type ~= "video" then
-				image.file.load(true)
+				image.file.mipmap = true
+				image.file.load_and_watch()
 			end
 		end
 	end
 	if CONFIG.sidebar_secondary_images then
 		for idx, image in pairs(CONFIG.sidebar_secondary_images) do
 			if image.file.type ~= "video" then
-				image.file.load(true)
+				image.file.mipmap = true
+				image.file.load_and_watch()
 			end
 		end
 	end
