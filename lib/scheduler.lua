@@ -33,7 +33,8 @@ function Scheduler:enqueue(item)
 
 	if not ok then
 		pcall(self.loader.modules[item.module].dispose, state)
-		print("ERROR", "failed to prepare " .. visual.title)
+		local error = duration
+		print("ERROR", "failed to prepare " .. visual.title .. ": " .. error)
 		return
 	end
 
