@@ -80,7 +80,7 @@
             "title":    "Scrolling Text Font",
             "name":     "scroller_font",
             "type":     "font",
-            "default":  "data_font.ttf"
+            "default":  "assets/fonts/roboto-condensed.ttf"
         }, {
             "title":    "Scrolling Text Color",
             "name":     "scroller_color",
@@ -128,7 +128,7 @@
             "title":    "Clock Font",
             "name":     "clock_font",
             "type":     "font",
-            "default":  "data_font.ttf"
+            "default":  "assets/fonts/roboto-condensed.ttf"
         }, {
             "title":    "Clock Color",
             "name":     "clock_color",
