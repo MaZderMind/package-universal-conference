@@ -62,10 +62,6 @@ function Images:draw(usable_area, visibility)
 
 	local transition_phase = 0
 
-	if visibility < 1 then
-		transition_until = now - 1
-	end
-
 	if self.image_in_transition then
 		gl.translate(
 			width/2 + usable_area.x,
@@ -73,6 +69,11 @@ function Images:draw(usable_area, visibility)
 		)
 
 		transition_phase = 1 - (self.transition_until - now) / self.image_transition_duration
+
+		if visibility < 1 then
+			transition_phase = 1
+		end
+
 		local rot = transition_phase * 180
 		if self.next_image == nil then
 			rot = rot + 180
