@@ -1,3 +1,6 @@
+local Logger = require("lib/logger")
+local logger = Logger.new("osd/background")
+
 local tools = require("lib/tools")
 local config = require("lib/config")
 local M = {}
@@ -46,7 +49,7 @@ local from, to
 local frame = 0
 
 local function init()
-    print("background_graphics changed, loading all images")
+    logger:info("background_graphics changed, loading all images")
     for idx, graphic in pairs(CONFIG.background_graphics) do
         if graphic.type ~= "video" then
             graphic.file.load_and_watch()
@@ -126,14 +129,14 @@ function M.render()
     if next_graphic == nil and now > valid_until then
         next_graphic = generator.next()
         if next_graphic.type == "video" then
-            print("re-loading video", next_graphic.file.asset_name)
+            logger:debug("re-loading video", next_graphic.file.asset_name)
             next_graphic.file.unload()
             next_graphic.file.load()
         end
     end
 
     if next_graphic and next_graphic.file:get_surface():state() == 'loaded' then
-        print("background-graphic is loaded, swapping graphics", next_graphic.file.asset_name)
+        logger:debug("background-graphic is loaded, swapping graphics", next_graphic.file.asset_name)
 
         graphic = next_graphic
         next_graphic = nil

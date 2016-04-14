@@ -1,3 +1,6 @@
+local Logger = require("lib/logger")
+local logger = Logger.new("time")
+
 local M = {}
 
 local base_t = os.time() - sys.now()
@@ -24,11 +27,11 @@ end
 
 util.data_mapper{
     ["clock/unix"] = function(time)
-        -- print("new time: ", time)
+        logger:debug("new time: ", time)
         base_t = tonumber(time) - sys.now()
     end;
     ["clock/midnight"] = function(since_midnight)
-        -- print("new midnight: ", since_midnight)
+        logger:debug("new midnight: ", since_midnight)
         midnight = tonumber(since_midnight) - sys.now()
     end;
 }

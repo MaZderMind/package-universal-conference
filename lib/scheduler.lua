@@ -1,3 +1,6 @@
+local Logger = require("lib/logger")
+local logger = Logger.new("scheduler")
+
 local tools = require("lib/tools")
 local time = require("lib/time")
 
@@ -34,13 +37,13 @@ function Scheduler:enqueue(item)
 	if not ok then
 		pcall(self.loader.modules[item.module].dispose, state)
 		local error = duration
-		print("ERROR", "failed to prepare " .. visual.title .. ": " .. error)
+		logger:warn("failed to prepare " .. visual.title .. ": " .. error)
 		return
 	end
 
 	self.next_visual = self.next_visual + duration - 1
 	self.next_wake   = self.next_visual - 3
-	print("INFO", "about to schedule visual ", visual.title)
+	logger:info("about to schedule visual ", visual.title)
 	self.runner:add(visual)
 end
 
@@ -67,10 +70,10 @@ function Scheduler:tick()
 			end
 		end
 		if not self.loader.modules[item.module] then
-			--print("INFO", "module not available", item.module)
+			-- logger:info("module not available", item.module)
 			can_schedule = false
 		elseif not self.loader.modules[item.module].can_schedule(item.options) then
-			print("INFO", "module cannot be scheduled", item.module)
+			logger:info("module cannot be scheduled", item.module)
 			can_schedule = false
 		end
 	until can_schedule

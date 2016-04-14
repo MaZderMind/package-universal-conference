@@ -1,3 +1,6 @@
+local Logger = require("lib/logger")
+local logger = Logger.new("runner-scheduled")
+
 local Runner = {}
 Runner.__index = Runner
 
@@ -20,20 +23,20 @@ function Runner:tick(usable_area)
 	local visual = self.visuals[1]
 
 	if not visual or visual.starts > now then
-		print("ERROR", "nothing scheduled")
+		logger:warn("nothing scheduled")
 		return
 	end
 
 	local module = self.loader.modules[visual.module]
 	if not module then
-		print("WARNING", "scheduler-runner: current module not available:", visual.module)
+		logger:warn("scheduler-runner: current module not available:", visual.module)
 		table.remove(self.visuals, 1)
 
 		return self:tick(usable_area)
 	end
 
 	if visual.starts + visual.duration < now then
-		print("INFO", "visual finished & removed", visual.title)
+		logger:info("visual finished & removed", visual.title)
 		pcall(module.dispose, visual.state)
 		table.remove(self.visuals, 1)
 
@@ -44,7 +47,7 @@ function Runner:tick(usable_area)
 	local ok, err = pcall(module.render, time, visual.duration, usable_area, visual.state)
 
 	if not ok then
-		print("ERROR", "in render-call", err)
+		logger:warn("error in render-call", err)
 		table.remove(self.visuals, 1)
 		return
 	end

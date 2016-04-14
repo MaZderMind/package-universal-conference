@@ -1,5 +1,8 @@
 local M = {}
 
+local Logger = require("lib/logger")
+local logger = Logger.new("osd/sidebar")
+
 local tools             = require "lib/tools"
 local time              = require "lib/time"
 local config            = require "lib/config"
@@ -40,7 +43,7 @@ util.data_mapper{
 }
 
 local function images_init()
-	print("sidebar images changed, loading all images")
+	logger:info("sidebar images changed, loading all images")
 
 	if CONFIG.sidebar_primary_images then
 		for idx, image in pairs(CONFIG.sidebar_primary_images) do

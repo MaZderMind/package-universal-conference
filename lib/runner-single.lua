@@ -1,3 +1,6 @@
+local Logger = require("lib/logger")
+local logger = Logger.new("runner-single")
+
 local Runner = {}
 Runner.__index = Runner
 
@@ -13,14 +16,14 @@ end
 function Runner:run(which)
 	local module = self.loader.modules[which]
 	if not module then
-		print("WARNING", "single-runner: current module not available:", which)
+		logger:warn("current module not available:", which)
 		return
 	end
 
 	local ok, err = pcall(module.render, self.loader.modules)
 
 	if not ok then
-		print("ERROR", "in render-call", err)
+		logger:warn("error in render-call", err)
 		return
 	end
 end
