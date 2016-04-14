@@ -27,6 +27,9 @@
 -- NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 -- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+local Logger            = require("lib/logger")
+local logger            = Logger.new("hosted")
+
 local resource_types = {
     ["none"] = function(value)
         return nil
@@ -42,7 +45,7 @@ local resource_types = {
 
         function image.ensure_loaded()
             if not surface then
-                print("loading", value.asset_name, "mipmap=", image.mipmap)
+                logger:info("loading", value.asset_name, "mipmap=", image.mipmap)
                 surface = resource.load_image(value.asset_name, image.mipmap)
             end
             return surface
@@ -53,12 +56,12 @@ local resource_types = {
             return state ~= "loading"
         end
         function image.load_and_watch()
-            print("registering change listener", value.asset_name)
+            logger:debug("registering change listener", value.asset_name)
             node.event("content_update", function(filename)
                 if filename ~= value.asset_name then
                     return
                 end
-                print("file changed!", value.asset_name)
+                logger:info("file changed!", value.asset_name)
                 image.unload()
                 image.ensure_loaded()
             end)
@@ -229,7 +232,7 @@ local function parse_config(options, config)
                     end
                 else
                     if types[option.type] == nil then
-                        print("ERROR", "unknown type " .. option.type .. " in option " .. name)
+                        logger:warn("unknown type " .. option.type .. " in option " .. name)
                     else
                         target[name] = types[option.type](config[name])
                     end

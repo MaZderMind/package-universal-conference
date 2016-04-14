@@ -1,5 +1,8 @@
 local json = require "json"
 
+local Logger = require("lib/logger")
+local logger = Logger.new("config")
+
 local change_listeners = {}
 local prev_config = nil
 
@@ -30,18 +33,18 @@ local function diff_config(old, new, stack)
         local index = table.concat(stack, '.')
 
         if type(old[k]) ~= type(new[k]) then
-            -- print("type changes", index)
+            -- logger:debug("type changes", index)
             table.insert(changes, index)
         else
             if type(old[k]) == 'table' then
-                -- print("recurse", index)
+                -- logger:debug("recurse", index)
                 local recurse_changes = diff_config(old[k], new[k], stack)
                 for idx, recurse_change in ipairs(recurse_changes) do
                     table.insert(changes, recurse_change)
                 end
             else
                 if old[k] ~= new[k] then
-                    -- print("literal changes", index)
+                    -- logger:debug("literal changes", index)
                     table.insert(changes, index)
                 end
             end
@@ -67,12 +70,12 @@ end
 util.file_watch("config.json", function(raw)
     local config = json.decode(raw)
     if type(prev_config) == 'nil' then
-        print("initial")
+        logger:debug("initial change-notification")
         prev_config = config
         return
     end
 
-    print("changed")
+    logger:debug("config changed, diffing with last state")
     local changes = diff_config(prev_config, config)
     pp(changes)
     prev_config = config

@@ -16,6 +16,12 @@ local Loader            = require("lib/loader")
 local RunnerScheduled   = require("lib/runner-scheduled")
 local RunnerSingle      = require("lib/runner-single")
 local Scheduler         = require("lib/scheduler")
+local Logger            = require("lib/logger")
+
+-- configure debug logging
+Logger.debug_global = false
+-- Logger.debug_component["osd/sidebar/images"] = true
+
 
 -- create instances
 --- content is scheduled based on a playlist
